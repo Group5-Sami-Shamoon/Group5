@@ -1,1 +1,2 @@
-cout<<"Hello My Name Is Ofek.";
+cout<<"Hey";
+cout<<"Ofek";
