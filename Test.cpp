@@ -1,2 +1,0 @@
-cout<<"Hey";
-cout<<"Ofek";
