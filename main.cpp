@@ -98,3 +98,122 @@ int main()
 }
 
 
+#include <iostream>
+#include <fstream>
+#include <string>
+
+using namespace std;
+
+const string DATA_FILE_CON = "data_base_contractor";
+const string DATA_FILE_EXT = "data_base_external";
+const string DATA_FILE_COMP = "data_base_company";
+
+
+void addNewContractor() 
+{
+    cout << "Please enter new contractor worker details: " << endl;
+
+    string username, password, firstname, secondname, personalId, phoneNumber, city, adress,profession;
+
+    cout << "enter profession worker: "; cin >> profession;
+    cout << "enter firstname: "; cin >> firstname;
+    cout << "enter secondname: "; cin >> secondname;
+    cout << "enter personalId: "; cin >> personalId;
+    cout << "enter phoneNumber: "; cin >> phoneNumber;
+    cout << "enter city: "; cin >> city;
+    cout << "enter adress: "; cin >> adress;
+    cout << "enter username: "; cin >> username;
+    cout << "enter password: "; cin >> password;
+
+    ofstream file;
+    file.open(DATA_FILE_CON + ".txt", ios_base::app);
+    file << username << '' << password << '' << profession << '' << firstname << '' << secondname << '' << personalId << '' << phoneNumber << '' << city << '' << adress << endl;
+    file.close();
+
+    cout << "[NEW CONTRUCTOR] " << username << " added to the system." << endl;
+}
+
+
+
+void ExternalRegister()
+{
+    cout << "Please enter your details: " << endl;
+
+    string username, password, firstname, secondname, personalId, phoneNumber, city, adress;
+
+    cout << "enter firstname: "; cin >> firstname;
+    cout << "enter secondname: "; cin >> secondname;
+    cout << "enter personalId: "; cin >> personalId;
+    cout << "enter phoneNumber: "; cin >> phoneNumber;
+    cout << "enter city: "; cin >> city;
+    cout << "enter adress: "; cin >> adress;
+    cout << "enter username: "; cin >> username;
+    cout << "enter password: "; cin >> password;
+
+    ofstream file;
+    file.open(DATA_FILE_EXT + ".txt", ios_base::app);
+    file << username << '' << password << '' <<  firstname << '' << secondname << '' << personalId << '' << phoneNumber << '' << city << '*' << adress << endl;
+    file.close();
+
+    cout << "WELCOME!" << username << " to the CONTRACT_NEST." << endl;
+}
+
+
+void logIn_employee()
+{
+    string line,name_temp, password_temp;
+    char x;
+    ifstream file;
+    cout << "USER NAME:\n ";
+    cin >> name_temp;
+    cout << "PASSWORD:\n ";
+    cin >> password_temp;
+
+    file.open(DATA_FILE_CON +".txt",ios::in);
+    while(getline(file,line))
+    {
+        while(x!= '*')
+        {
+
+        }
+    }
+    file.close();
+}
+
+int main()
+{
+    logIn_employee();
+    addNewContractor();
+    ExternalRegister();
+    logIn_employee();
+    //int choice;
+    //std::cout << "WELCOME!to the CONTRACT_NEST\n";
+    //cout << "please choose:\n1-COMPANY EMPLOYEE\n2-CONTRACTOR WORKER\n3-EXTERNAL EMPLOYERS\n4-Exit\n";
+    //cin >> choice;
+    //while (choice =! 4)
+    //{
+    //    switch (choice)
+    //    {
+    //    case 1:
+    //        if (logIn_employee() == true)
+    //        {
+    //            //menu comamy employee
+    //            addNewContractor();
+    //            //search
+    //            //change
+    //        }
+    //        else
+    //            cout << "Error! user not Found";
+    //            break;
+
+    //    case 2:
+    //        break;
+
+    //    case 3:
+    //        ExternalRegister()
+    //        break;
+
+    //    default:
+    //        printf("Error");
+    //}
+}
