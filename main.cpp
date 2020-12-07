@@ -18,6 +18,7 @@ typedef struct
 	char City[LENGTH];
 	char Adress[LENGTH];
 	int Phone_Number;
+<<<<<<< Updated upstream
 } CompanyEmployee;
 
 typedef struct
@@ -33,6 +34,12 @@ typedef struct
 	char Adress[LENGTH];
 	int Phone_Number;
 } ExternalEmployee;
+=======
+	int age;
+	bool CheckInOut;
+	float MissedDays;
+} Contractor;
+>>>>>>> Stashed changes
 
 typedef struct
 {
@@ -89,6 +96,7 @@ bool Valid_Name(char name[]);
 int main()
 {
 	float num;
+<<<<<<< Updated upstream
 	int i = 0, choise = 0, count = 0;
 	CompanyEmployee c1[SIZE] = { 0 };
 	Contractor c2[SIZE] = { 0 };
@@ -106,6 +114,15 @@ void First_Menu(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3)
 	cout << "1.Company Employee" << endl << "2.Contractor" << endl << "3.External employee" << endl << "4.Exit" << endl;
 	cin >> choice;
 	switch (choice)
+=======
+	int i = 0, choice = 0, count = 0;
+	//קליטת המידע מהקובץ
+
+	ifstream C_In;
+	C_In.open("ContractorWorkers.txt");
+	Contractor c[SIZE] = { 0 };
+	for (i = 0; i < SIZE; i++)
+>>>>>>> Stashed changes
 	{
 	case 1:
 		login_CE(c1);
@@ -134,9 +151,15 @@ void ContractorMenu(Contractor* c, int index)
 	cout << endl;
 	cout << "               Contractor Menu               " << endl;
 	cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
+<<<<<<< Updated upstream
 	cout << "1 - Report hours" << endl << "2 - Salary calculation" << endl << "3 - Vacation report" << endl << "4 - Work history" << endl << "5 - Exit." << endl;
 	cin >> choise;
 	switch (choise)
+=======
+	cout << "1 - Report hours" << endl << "2 - Salary calculation" << endl << "3 - Vacation report" << endl << "4 - Work history" << endl;
+	cin >> choice;
+	switch (choice)
+>>>>>>> Stashed changes
 	{
 	case 1:
 		break;
@@ -707,4 +730,185 @@ bool Exist_ID(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, int id)
 		return false;
 	else
 		return true;
+}
+
+//              ##################################################### EILON ############################################################################
+//              ##################################################### EILON ############################################################################
+//              ##################################################### EILON ############################################################################
+//              ##################################################### EILON ############################################################################
+//              ##################################################### EILON ############################################################################
+/*
+{
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+#include <fstream>
+#define Max 50
+using namespace std;
+}
+typedef struct 
+{
+	int day[Max];
+	int month[Max];
+	int year[Max];
+	float S_Hour;
+	float F_Hour;
+	char employer[20];
+	char employee[20];
+	float Hour_Salary;
+	float total;
+	float premium;
+}Job;
+typedef struct 
+{
+	char Firstname[20];
+	char Lastname[20];
+	int id;
+	char City[30];
+	char Adress[30];
+	int Phone_Number;
+	int age;
+	float salary;
+	float hours=0;
+	float MissedDays;
+	bool CheckInOut;
+	int UserID;
+	Job vacation;
+} Contractor;
+
+void ClockReport(Contractor cont[Max],int index)
+{
+	int hourMenu = 0;
+	int hours = 0;
+	cout << "#### Hours report ####" << endl;
+	do
+	{
+		cout << "Would you like to clock in or out?" << endl << "1 - In" << endl << "2 - Out" << endl;
+		cin >> hourMenu;
+	}
+	while (hourMenu != 1 && hourMenu != 2);
+	switch (hourMenu)
+	{
+	case 1:
+	{
+		if (cont[index].CheckInOut == true)
+			cout << "You are already clocked in!" << endl;
+		else
+		{
+			cont[index].CheckInOut = true;
+			cout << "You are now clocked in!" << endl;
+		}
+	}
+		break;
+	case 2:
+	{
+		if (cont[index].CheckInOut == true)
+		{
+			cout << "How many hours did you work today?:" << endl;
+			do
+			{
+				cout << "## Must be between 0-24 hours ##" << endl;
+				cin >> hours;
+			} while (hours < 0 || hours > 24);
+			cont[index].hours += hours;
+			cout << "You are now clocked out!" << endl;
+			cont[index].CheckInOut = false;
+		}
+		else
+			cout << "To clock out you must clock in!" << endl;
+	}
+	break;
+	}
+}
+void VacationRequest(Contractor cont[Max],int indexush)
+{
+	int days;
+	cout << "## Vacation report ##" << endl;
+	cout << "How many days would you like to take off?:" << endl;
+	do
+		cin >> days;
+	while (days <= 0);
+	cout << "Which dates would you like to take off? **(Day,Month,Year)** :" << endl;
+	for (int i = 0; i < days; i++)
+		cin >> cont[indexush].vacation.day[i] >> cont[indexush].vacation.month[i] >> cont[indexush].vacation.year[i];
+	cout << "Requested dates:" << endl;
+	for (int i = 0; i < days; i++)
+		cout << cont[indexush].vacation.day[i] << "/" << cont[indexush].vacation.month[i] << "/" << cont[indexush].vacation.year[i] << endl;
+}
+
+int main()
+{
+	int menu=0;
+	int size;
+	float num = 0;
+	int i = 0;
+
+	//קליטת המידע מהקובץ
+	ifstream beta;
+	beta.open("BetaFile.txt");
+	beta >> size;
+
+	//קליטת המידע מהקובץ
+	ifstream C_In;
+	C_In.open("ContractorWorkers.txt");
+	C_In >> size;
+
+	Contractor c[Max] = { NULL };
+	cout << "Enter Name,Surname,ID";
+	cin >> c[0].Firstname >> c[0].Lastname >>  c[0].id;
+	cout << endl;
+	cout << c[0].Firstname <<endl<< c[0].Lastname << endl<<c[0].id<<endl;
+
+	/*for (i = 0; i < size; i++)
+		C_In >> c[i].Firstname >> c[i].Lastname >> c[i].age;
+	C_In.close();*/
+	
+	//החזרת המידע והשינוי שלו אם יש צורך
+	//ofstream C_Out;
+	//C_Out.open("ContractorWorkers.txt");
+	//C_Out << size << endl;
+	//cout << "enter name"<<endl;
+	//cin >> c[i].Firstname;
+	//C_Out << "Name: " <<  c[i].Firstname << endl;
+	//cout << "enter hours" << endl;
+	//cin >> c[i].hours;
+	//C_Out <<"Hours worked: "<<  c[i].hours << endl;
+	//for (i = 0; i < size; i++)
+	//{
+	//	if (c[i].age == 3154)
+	//	{
+	//		cout << "Please Enter Age:";
+	//		cin >> c[i].age;
+	//		C_Out << c[i].Firstname << " " << c[i].Lastname << " " << c[i].age << endl;
+	//	}
+	//	else
+	//		C_Out << c[i].Firstname << " " << c[i].Lastname << " " << c[i].age << endl;
+	//}
+/*
+	cout << endl<< "Welcome to ContractNest." << endl;
+	cout << "1 - Report hours" << endl << "2 - Salary calculation" << endl << "3 - Vacation report" << endl << "4 - Report hours" << endl << "5 - Work history" <<endl << "6 - Exit" <<endl;
+
+	while (menu != 5)
+	{
+	cout <<	"Please enter the given to number to enter a category:" << endl;
+	cin >> menu;
+		switch (menu)
+		{
+		case 1:
+			ClockReport(c,0);
+			break;
+		case 2:
+
+			break;
+		case 3:	
+			VacationRequest(c, 0);
+			break;
+		case 4:
+			break;
+
+		}
+	}
+
+	cout << endl << "Thank you for choosing ContractNest <3"<<endl;
+	//C_Out.close();//close file
+	return 0;
 }
