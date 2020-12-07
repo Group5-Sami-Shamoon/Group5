@@ -1,6 +1,7 @@
 #pragma once
 #define _CRT_SECURE_NO_WARNINGS
 #define SIZE 50
+#define LENGTH 20
 #include <iostream>
 #include <fstream>
 using namespace std;
@@ -8,28 +9,28 @@ using namespace std;
 typedef struct
 {
 	int type = 1;
-	char username[20];
-	char password[20];
+	char username[LENGTH];
+	char password[LENGTH];
 	char ch;
-	char Firstname[20];
-	char Lastname[20];
-	float id;
-	char City[30];
-	char Adress[30];
+	char Firstname[LENGTH];
+	char Lastname[LENGTH];
+	int id;
+	char City[LENGTH];
+	char Adress[LENGTH];
 	int Phone_Number;
 } CompanyEmployee;
 
 typedef struct
 {
 	int type = 3;
-	char username[20];
-	char password[20];
+	char username[LENGTH];
+	char password[LENGTH];
 	char ch;
-	char Firstname[20];
-	char Lastname[20];
-	float id;
-	char City[30];
-	char Adress[30];
+	char Firstname[LENGTH];
+	char Lastname[LENGTH];
+	int id;
+	char City[LENGTH];
+	char Adress[LENGTH];
 	int Phone_Number;
 } ExternalEmployee;
 
@@ -40,8 +41,8 @@ typedef struct
 	int year;
 	float S_Hour;
 	float F_Hour;
-	char employer[20];
-	char employee[20];
+	char employer[LENGTH];
+	char employee[LENGTH];
 	float Hour_Salary;
 	float total;
 	float premium;
@@ -50,27 +51,32 @@ typedef struct
 typedef struct
 {
 	int type = 2;
-	char username[20];
-	char password[20];
+	char username[LENGTH];
+	char password[LENGTH];
 	char ch;
-	char Firstname[20];
-	char Lastname[20];
-	float id;
+	char Firstname[LENGTH];
+	char Lastname[LENGTH];
+	int id;
 	float Daily_Salary;
-	char City[30];
-	char Adress[30];
+	char City[LENGTH];
+	char Adress[LENGTH];
 	int Phone_Number;
-	char profession[20];
+	char profession[LENGTH];
+	int seniority;
 	Job j;
 } Contractor;
 
+bool Exist_Contractor_ID(Contractor* c, int id);
+bool Exist_Company_ID(CompanyEmployee* c, int id);
+bool Exist_External_ID(ExternalEmployee* c, int id);
+bool Exist_ID(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, int id);
 void ReadFromFile(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3);
 void WriteToFile(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3);
 void ContractorMenu(Contractor* c, int index);
 void CompanyEmployeeMenu(CompanyEmployee* c, int index);
 void ExternalEmployeeMenu(ExternalEmployee* c, int index);
 void First_Menu(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3);
-void addNewContractor(Contractor* c);
+void addNewContractor(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3);
 void login_CE(CompanyEmployee* c1);
 void login_C(Contractor* c2);
 void login_EE(ExternalEmployee* c3);
@@ -79,7 +85,7 @@ bool Exist_Contractor_Username(Contractor* c, char username[]);
 bool Exist_Company_Username(CompanyEmployee* c, char username[]);
 bool Exist_External_Username(ExternalEmployee* c, char username[]);
 bool Exist_Username(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, char username[]);
-
+bool Valid_Name(char name[]);
 int main()
 {
 	float num;
@@ -125,9 +131,10 @@ void First_Menu(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3)
 void ContractorMenu(Contractor* c, int index)
 {
 	int choise;
+	cout << endl;
 	cout << "               Contractor Menu               " << endl;
 	cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
-	cout << "1 - Report hours" << endl << "2 - Salary calculation" << endl << "3 - Vacation report" << endl << "4 - Work history" << endl;
+	cout << "1 - Report hours" << endl << "2 - Salary calculation" << endl << "3 - Vacation report" << endl << "4 - Work history" << endl << "5 - Exit." << endl;
 	cin >> choise;
 	switch (choise)
 	{
@@ -138,6 +145,9 @@ void ContractorMenu(Contractor* c, int index)
 	case 3:
 		break;
 	case 4:
+		break;
+	case 5:
+		cout << "Bye Bye." << endl;
 		break;
 	default:
 		break;
@@ -177,6 +187,7 @@ void ReadFromFile(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3)
 		C_In2 >> c2[i].Adress;
 		C_In2 >> c2[i].Phone_Number;
 		C_In2 >> c2[i].profession;
+		C_In2 >> c2[i].seniority;
 	}
 	C_In2.close();
 
@@ -239,6 +250,7 @@ void WriteToFile(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3)
 			C_Out2 << c2[i].Adress << endl;
 			C_Out2 << c2[i].Phone_Number << endl;
 			C_Out2 << c2[i].profession << endl;
+			C_Out2 << c2[i].seniority << endl;
 		}
 	}
 	C_Out2.close();//close file
@@ -264,33 +276,67 @@ void WriteToFile(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3)
 	}
 	C_Out3.close();//close file
 }
-void addNewContractor(Contractor* c)
+void addNewContractor(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3)
 {
+	char username[LENGTH];
+	char name[LENGTH];
+	int id;
 	for (int i = 0; i < SIZE; i++)
 	{
-		if (c[i].ch == 0)
+		if (c2[i].ch == 0)
 		{
-			cout << "Please enter new contractor worker details:" << endl;
-			c[i].ch = '*';
-			cout << "enter profession worker:";
-			cin >> c[i].profession;
-			cout << "enter personalId:";
-			cin >> c[i].id;
-			cout << "enter firstname:";
-			cin >> c[i].Firstname;
-			cout << "enter secondname:";
-			cin >> c[i].Lastname;
-			cout << "enter phoneNumber:";
-			cin >> c[i].Phone_Number;
-			cout << "enter city:";
-			cin >> c[i].City;
-			cout << "enter adress:";
-			cin >> c[i].Adress;
+			cout << "Please enter new external employee details" << endl;
+			cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
+			c2[i].ch = '*';
 			cout << "enter username:";
-			cin >> c[i].username;
+			cin >> username;
+			while (Exist_Username(c1, c2, c3, username) == true)
+			{
+				cout << "username is already exist, please try agian." << endl;
+				cout << "enter username:";
+				cin >> username;
+			}
+			strcpy(c2[i].username, username);
 			cout << "enter password:";
-			cin >> c[i].password;
-			cout << "[NEW CONTRUCTOR]" << c[i].username << " added to the system." << endl;
+			cin >> c2[i].password;
+			cout << "enter firstname:";
+			cin >> c2[i].Firstname;
+			while (Valid_Name(name) == false)
+			{
+				cout << "the name is invaild, please try agian." << endl;
+				cout << "enter firstname:";
+				cin >> name;
+			}
+			strcpy(c2[i].Firstname, name);
+			cout << "enter lastname:";
+			cin >> name;
+			while (Valid_Name(name) == false)
+			{
+				cout << "the name is invaild, please try agian." << endl;
+				cout << "enter lastname:";
+				cin >> name;
+			}
+			strcpy(c2[i].Lastname, name);
+			cout << "enter ID:";
+			cin >> id;
+			while (Exist_ID(c1, c2, c3, id) == true)
+			{
+				cout << "Id is already exist, please try agian." << endl;
+				cout << "enter ID:";
+				cin >> id;
+			}
+			c3[i].id = id;
+			cout << "enter city:";
+			cin >> c2[i].City;
+			cout << "enter adress:";
+			cin >> c2[i].Adress;
+			cout << "enter phoneNumber:";
+			cin >> c2[i].Phone_Number;
+			cout << "enter profession:";
+			cin >> c2[i].profession;
+			cout << "enter seniority:";
+			cin >> c2[i].seniority;
+			cout << "[NEW CONTRACOTR] " << c2[i].username << " added to the system." << endl;
 			break;
 		}
 	}
@@ -298,8 +344,8 @@ void addNewContractor(Contractor* c)
 void login_CE(CompanyEmployee* c)
 {
 	int choice = 0;
-	char username[20];
-	char password[20];
+	char username[LENGTH];
+	char password[LENGTH];
 	int index = 0;
 	cout << "Please enter username:";
 	cin >> username;
@@ -315,13 +361,13 @@ void login_CE(CompanyEmployee* c)
 	{
 		if (strcmp(username, c[i].username) == 0 && strcmp(password, c[i].password) == 0)
 		{
-			cout << "Vaild username and password, welcome" << c[i].Firstname;
+			cout << "Vaild username and password, welcome " << c[i].Firstname << endl;
 			index = i;
 			CompanyEmployeeMenu(c, index);
 		}
 		else if (strcmp(username, c[i].username) == 0 && !(strcmp(password, c[i].password) == 0))
 		{
-			while (choice != 2)
+			while (!(strcmp(password, c[i].password) == 0) && choice !=2)
 			{
 				cout << "InVaild password, want to try agian?" << endl << "1.Yes" << endl << "2.Exit" << endl;
 				cin >> choice;
@@ -339,6 +385,7 @@ void login_CE(CompanyEmployee* c)
 					break;
 				case 2:
 					cout << "Bye Bye." << endl;
+					break;
 				default:
 					cout << "No Such An Option, please try agian." << endl;
 					break;
@@ -350,8 +397,8 @@ void login_CE(CompanyEmployee* c)
 void login_C(Contractor* c)
 {
 	int choice = 0;
-	char username[20];
-	char password[20];
+	char username[LENGTH];
+	char password[LENGTH];
 	int index = 0;
 	cout << "Please enter username:";
 	cin >> username;
@@ -367,13 +414,13 @@ void login_C(Contractor* c)
 	{
 		if (strcmp(username, c[i].username) == 0 && strcmp(password, c[i].password) == 0)
 		{
-			cout << "Vaild username and password, welcome" << c[i].Firstname;
+			cout << "Vaild username and password, welcome " << c[i].Firstname << endl;
 			index = i;
 			ContractorMenu(c, index);
 		}
 		else if (strcmp(username, c[i].username) == 0 && !(strcmp(password, c[i].password) == 0))
 		{
-			while (choice != 2)
+			while (!(strcmp(password, c[i].password) == 0) && choice != 2)
 			{
 				cout << "InVaild password, want to try agian?" << endl << "1.Yes" << endl << "2.Exit" << endl;
 				cin >> choice;
@@ -389,20 +436,22 @@ void login_C(Contractor* c)
 						ContractorMenu(c, index);
 					}
 					break;
+				case 2:
+					cout << "Bye Bye." << endl;
+					break;
 				default:
 					cout << "No Such An Option, please try agian." << endl;
 					break;
 				}
 			}
-			cout << "Bye Bye." << endl;
 		}
 	}
 }
 void login_EE(ExternalEmployee* c)
 {
 	int choice = 0;
-	char username[20];
-	char password[20];
+	char username[LENGTH];
+	char password[LENGTH];
 	int index = 0;
 	cout << "Please enter username:";
 	cin >> username;
@@ -418,13 +467,13 @@ void login_EE(ExternalEmployee* c)
 	{
 		if (strcmp(username,c[i].username)==0  && strcmp(password,c[i].password)==0)
 		{
-			cout << "Vaild username and password, welcome" << c[i].Firstname;
+			cout << "Vaild username and password, welcome " << c[i].Firstname <<endl;
 			index = i;
 			ExternalEmployeeMenu(c, index);
 		}
 		else if (strcmp(username, c[i].username) == 0 && !(strcmp(password, c[i].password) == 0))
 		{
-			while (choice != 2)
+			while (!(strcmp(password, c[i].password) == 0) && choice != 2)
 			{
 				cout << "InVaild password, want to try agian?" << endl << "1.Yes" << endl << "2.Exit" << endl;
 				cin >> choice;
@@ -440,18 +489,22 @@ void login_EE(ExternalEmployee* c)
 						ExternalEmployeeMenu(c, index);
 					}
 					break;
+				case 2:
+					cout << "Bye Bye." << endl;
+					break;
 				default:
 					cout << "No Such An Option, please try agian." << endl;
 					break;
 				}
 			}
-			cout << "Bye Bye." << endl;
 		}
 	}
 }
 void Register(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3)
 {
-	char username[20];
+	char username[LENGTH];
+	char name[LENGTH];
+	int id;
 	for (int i = 0; i < SIZE; i++)
 	{
 		if (c3[i].ch == 0)
@@ -471,29 +524,86 @@ void Register(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3)
 			cout << "enter password:";
 			cin >> c3[i].password;
 			cout << "enter firstname:";
-			cin >> c3[i].Firstname;
-			cout << "enter secondname:";
-			cin >> c3[i].Lastname;
+			cin >> name;
+			while (Valid_Name(name) == false)
+			{
+				cout << "the name is invaild, please try agian." << endl;
+				cout << "enter firstname:";
+				cin >> name;
+			}
+			strcpy(c3[i].Firstname, name);
+			cout << "enter lastname:";
+			cin >> name;
+			while (Valid_Name(name) == false)
+			{
+				cout << "the name is invaild, please try agian." << endl;
+				cout << "enter lastname:";
+				cin >> name;
+			}
+			strcpy(c3[i].Lastname, name);
 			cout << "enter ID:";
-			cin >> c3[i].id;
+			cin >> id;
+			while (Exist_ID(c1, c2, c3, id) == true)
+			{
+				cout << "Id is already exist, please try agian." << endl;
+				cout << "enter ID:";
+				cin >> id;
+			}
+			c3[i].id=id;
 			cout << "enter city:";
 			cin >> c3[i].City;
 			cout << "enter adress:";
 			cin >> c3[i].Adress;
 			cout << "enter phoneNumber:";
 			cin >> c3[i].Phone_Number;
-			cout << "[NEW ACCOUNT]" << c3[i].username << " added to the system." << endl;
+			cout << "[NEW ACCOUNT] " << c3[i].username << " added to the system." << endl;
 			break;
 		}
 	}
 }
 void ExternalEmployeeMenu(ExternalEmployee* c, int index)
 {
-	cout << "Hello" << endl;
+	int choise;
+	cout << endl;
+	cout << "               External Employee Menu               " << endl;
+	cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
+	cout << "1 - Search" << endl << "2 - History" << endl << "3 - Exit" << endl;
+	cin >> choise;
+	switch (choise)
+	{
+	case 1:
+		break;
+	case 2:
+		break;
+	case 3:
+		cout << "Bye Bye." << endl;
+		break;
+	default:
+		break;
+	}
 }
 void CompanyEmployeeMenu(CompanyEmployee* c, int index)
 {
-	cout << "Hello" << endl;
+	int choise;
+	cout << endl;
+	cout << "               Company Employee Menu               " << endl;
+	cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
+	cout << "1 - Add Contractor" << endl << "2 - Statistic" << endl << "3 - Contractor Inforomation" << endl << "4 - Exit."<< endl;
+	cin >> choise;
+	switch (choise)
+	{
+	case 1:
+		break;
+	case 2:
+		break;
+	case 3:
+		break;
+	case 4:
+		cout << "Bye Bye." << endl;
+		break;
+	default:
+		break;
+	}
 }
 bool Exist_Contractor_Username(Contractor* c, char username[])
 {
@@ -537,6 +647,63 @@ bool Exist_External_Username(ExternalEmployee* c, char username[])
 bool Exist_Username(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, char username[])
 {
 	if ((Exist_External_Username(c3, username) == false) && (Exist_Contractor_Username(c2, username) == false) && (Exist_Company_Username(c1, username) == false))
+		return false;
+	else
+		return true;
+}
+bool Valid_Name(char name[])
+{
+	for (int i = 0; i < strlen(name); i++)
+	{
+		if (name[0] > 'Z' || name[0] < 'A')
+			return false;
+		if ((name[i] > 'z' || name[i] < 'a') && i!=0)
+			return false;
+	}
+	return true;
+}
+bool Exist_Contractor_ID(Contractor* c, int id)
+{
+	int count = 0;
+	for (int i = 0; i < SIZE; i++)
+	{
+		if (id == c[i].id)
+			count++;
+	}
+	if (count == 0)
+		return false;
+	else
+		return true;
+}
+bool Exist_Company_ID(CompanyEmployee* c, int id)
+{
+	int count = 0;
+	for (int i = 0; i < SIZE; i++)
+	{
+		if (id == c[i].id)
+			count++;
+	}
+	if (count == 0)
+		return false;
+	else
+		return true;
+}
+bool Exist_External_ID(ExternalEmployee* c, int id)
+{
+	int count = 0;
+	for (int i = 0; i < SIZE; i++)
+	{
+		if (id == c[i].id)
+			count++;
+	}
+	if (count == 0)
+		return false;
+	else
+		return true;
+}
+bool Exist_ID(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, int id)
+{
+	if ((Exist_External_ID(c3, id) == false) && (Exist_Contractor_ID(c2, id) == false) && (Exist_Company_ID(c1, id) == false))
 		return false;
 	else
 		return true;
