@@ -912,3 +912,304 @@ int main()
 	//C_Out.close();//close file
 	return 0;
 }
+
+
+
+
+
+
+//              ##################################################### NAKNIKA ############################################################################
+//              ##################################################### NAKNIKA ############################################################################
+//              ##################################################### NAKNIKA ############################################################################
+//              ##################################################### NAKNIKA ############################################################################
+//              ##################################################### NAKNIKA ############################################################################
+//              ##################################################### NAKNIKA ############################################################################
+//              ##################################################### NAKNIKA ############################################################################
+//              ##################################################### NAKNIKA ############################################################################
+//              ##################################################### NAKNIKA ############################################################################
+//              ##################################################### NAKNIKA ############################################################################
+//              ##################################################### NAKNIKA ############################################################################
+//              ##################################################### NAKNIKA ############################################################################
+//              ##################################################### NAKNIKA ############################################################################
+//              ##################################################### NAKNIKA ############################################################################
+//              ##################################################### NAKNIKA ############################################################################
+
+
+
+
+
+#pragma once
+#define _CRT_SECURE_NO_WARNINGS
+#define SIZE 50
+#define LENGTH 20
+#include <stdio.h>
+#include <iostream>
+#include <fstream>
+#include <string.h>
+using namespace std;
+
+typedef struct
+{
+	int type = 1;
+	char username[LENGTH];
+	char password[LENGTH];
+	char ch;
+	char Firstname[LENGTH];
+	char Lastname[LENGTH];
+	int id;
+	char City[LENGTH];
+	char Adress[LENGTH];
+	int Phone_Number;
+} CompanyEmployee;
+
+typedef struct
+{
+	int type = 3;
+	char username[LENGTH];
+	char password[LENGTH];
+	char ch;
+	char Firstname[LENGTH];
+	char Lastname[LENGTH];
+	int id;
+	char City[LENGTH];
+	char Adress[LENGTH];
+	int Phone_Number;
+} ExternalEmployee;
+
+typedef struct
+{
+	int day;
+	int month;
+	int year;
+	float S_Hour;
+	float F_Hour;
+	float Hour_Salary;
+	char employer[LENGTH];
+	char employee[LENGTH];
+	float total;
+	float premium;
+} Job;
+
+typedef struct
+{
+	int type = 2;
+	char username[LENGTH];
+	char password[LENGTH];
+	char ch;
+	char Firstname[LENGTH];
+	char Lastname[LENGTH];
+	int id;
+	float Month_Salary;
+	float Hourly_Pay;
+	char City[LENGTH];
+	char Adress[LENGTH];
+	int Phone_Number;
+	char profession[LENGTH];
+	int seniority;
+	Job j;
+} Contractor;
+
+
+
+
+bool CheckAvibillity(Contractor cont[SIZE], int day, int month, int year)     //בודק זמינות
+{
+	cout << "checks if the cotractor is avilible" << endl;
+	cout << "enter day:" << endl;
+	cin >> day;
+	cout << "enter month:" << endl;
+	cin >> month;
+	cout << "enter year:" << endl;
+	cin >> year;
+	for (int  i = 0; i < SIZE; i++)
+	{
+		if (cont[i].j.day == day&& cont[i].j.month == month&& cont[i].j.year == year)
+			return true;
+		else
+			return false;
+	}
+}	
+
+bool Checkprofession(Contractor cont[SIZE],char* profession)      //בודק אם המקצוע קיים
+{
+	cout << "Enter a profession:" << endl;
+	cin >> profession;
+	cout << "checks if the profession is exist" << endl;
+	for (int i = 0; i < SIZE; i++)
+	{
+		if (strcmp(cont[i].profession, profession)==0)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+
+	}
+}
+
+bool Checkpay(Contractor cont[SIZE], float pay_hour)
+{
+	cout << "Enter a salary per hour:" << endl;
+	cin >> pay_hour;
+	cout << "checks if the salary is fits the requrment" << endl;
+	for (int i = 0; i < SIZE; i++)
+	{
+		if (cont[i].j.Hour_Salary <=pay_hour)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	
+	}
+}
+
+bool CheckPlace(Contractor cont[SIZE], char* city)
+{
+	cout << "Enter a city:" << endl;
+	cin >> city;
+	cout << "checks if its the same city" << endl;
+	for (int i = 0; i < SIZE; i++)
+	{
+		if (strcmp(cont[i].City, city)==0)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+
+	}
+}
+
+
+bool CheckVetek(Contractor cont[SIZE], int vetek2)
+{
+	cout << "Enter a vetek:" << endl;
+	cin >> vetek2;
+	cout << "checks if its the same Seniority" << endl;
+	for (int i = 0; i < SIZE; i++)
+	{
+		if (cont[i].seniority <= vetek2)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+
+	}
+}
+
+int SerchAndBook(Contractor cont[SIZE])
+{
+	int day{}, month{}, year{};
+	char* profession{};
+	float pay_hour{};
+	char* city{};
+	int vetek{};
+	bool requrment=true;
+	Contractor booking[SIZE] = { NULL };
+	int num;
+
+
+	cout << "Here you can serch the contractor for you !" << endl;
+	cout << "There are some categories for you:" << endl;
+	cout << "1. Avibillity" << endl << "2. Profession" << endl << "3.Payment" << endl << "4.Place" << endl << "5.Seniority" << endl;
+	//cout << "Avibillity" << endl;
+	//CheckAvibillity(cont, day, month, year);    //מחזיר אמת או שקר
+	//cout << "Profession" << endl;
+	//Checkprofession(cont, profession);        //מחזיר אמת או שקר
+	//cout << "Payment" << endl;
+	//Checkpay(cont, pay_hour);                 //מחזיר אמת או שקר
+	//cout << "Place" << endl;
+	//CheckPlace(cont, city);           //מחזיר אמת או שקר
+	//cout << "Seniority" << endl;
+	//CheckVetek(cont, vetek);              //מחזיר אמת או שקר
+
+	for (int i = 0; i < SIZE; i++)
+
+	{
+		if (CheckAvibillity(cont, day, month, year) == false && Checkprofession(cont, profession) == true && Checkpay(cont, pay_hour) == true && CheckPlace(cont, city) == true && CheckVetek(cont, vetek) == true)
+		{
+			cout << cont[i].Firstname<<" "<<cont[i].Lastname<<" "<<cont[i].City<< endl;
+			booking[i] = cont[i];
+		}
+		else
+		{
+			cout << "The contractor was not found" << endl;
+		}
+
+		cout << "Contractor index is:" << i << endl;
+	}
+	cout << "Would you like to hire this contractor??" << endl << "1-yes | 2-no" << endl;;
+	cin >> num;
+	if (num==1)
+	{
+		
+	}
+
+	return 0;
+}
+//
+//void InviteHistory(Contractor cont[SIZE])
+//{
+//	cout<< "This is the booking history by the emplooyer:" << endl;
+//	for (int i = 0; i < SIZE; i++)
+//	{
+//		cout << "Profession booked:" << endl;
+//	}
+//
+//}
+
+int main()
+{
+	int menu = 0;
+	int size;
+	float num = 0;
+	int i = 0;
+
+	Contractor c[SIZE] = { NULL };
+	cout << "Enter Name,Surname,ID";
+	cin >> c[0].Firstname >> c[0].Lastname >> c[0].id;
+	cout << endl;
+	cout << c[0].Firstname << endl << c[0].Lastname << endl << c[0].id << endl;
+
+	cout << endl << "Welcome to ContractNest." << endl;
+	cout << "1 - Report hours" << endl << "2 - Salary calculation" << endl << "3 - Vacation report" << endl << "4 - Report hours" << endl << "5 - Work history" << endl << "6 - Exit" << endl;
+
+	while (menu != 6)
+	{
+		cout << "Please enter the given to number to enter a category:" << endl;
+		cin >> menu;
+		switch (menu)
+		{
+		case 1:
+			//ClockReport(c, 0);
+			break;
+		case 2:
+
+			break;
+		case 3:
+			//VacationRequest(c, 0);
+			break;
+		case 4:
+			break;
+		case 5:
+			break;
+		}
+	}
+
+	cout << endl << "Thank you for choosing ContractNest <3" << endl;
+
+	return 0;
+
+
+
+}
