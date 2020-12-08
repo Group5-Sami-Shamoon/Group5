@@ -1213,4 +1213,91 @@ int main()
 
 
 }
-//otir
+///oti///r//////////////////////////////////////////////otir
+//#pragma once
+#define _CRT_SECURE_NO_WARNINGS
+#define SIZE 50
+#define LENGTH 20
+#include <iostream>
+#include <fstream>
+using namespace std;
+
+typedef struct
+{
+	int type = 2;
+	char username[LENGTH];
+	char password[LENGTH];
+	char ch;
+	char Firstname[LENGTH];
+	char Lastname[LENGTH];
+	int id;
+	float Daily_Salary;
+	char City[LENGTH];
+	char Adress[LENGTH];
+	int Phone_Number;
+	char profession[LENGTH];
+	int seniority;
+
+} Contractor;
+
+void workHistory(Contractor* c, int cc);
+int CountConstractorCases(Contractor* c, char* n);
+bool checkContractor(Contractor c, char* n);
+void printContractor(Contractor cTp);
+
+int main() {
+
+	return 0;
+
+}
+
+void workHistory(Contractor* c, int cCount) {
+
+	for (int i = 0; i < cCount; i++) {
+
+		printContractor(c[i]);
+	}
+
+}
+
+int CountConstractorCases(Contractor* c, char* Contname) {
+
+	int ContractorCounter;
+
+	for (int i = 0; i < SIZE; i++) {
+
+		if (checkContractor(c[i], Contname) == true)
+
+			ContractorCounter++;
+
+	}
+
+	return ContractorCounter;
+
+}
+
+bool checkContractor(Contractor c, char* name) {
+
+	if (strcmp(c.Firstname, name) == 0)
+
+		return true;
+
+	else
+
+		return false;
+
+
+}
+
+void printContractor(Contractor cTp) {
+
+	cout << "The contractor information is: " << endl;
+	cout << "First name: " << cTp.Firstname;
+	cout << "Last name: " << cTp.Lastname;
+	cout << "ID: " << cTp.id;
+	cout << "lives in: " << cTp.Adress;
+	cout << "Phone: " << cTp.Phone_Number;
+	cout << "Works in: " << cTp.profession;
+	cout << "Years on the job: " << cTp.seniority;
+
+}
