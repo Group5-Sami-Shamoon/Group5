@@ -6,7 +6,7 @@
 #include <string>
 #include <fstream>
 using namespace std;
-
+//Aasdasd
 typedef struct
 {
 	int day[SIZE];
