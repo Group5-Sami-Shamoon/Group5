@@ -6,6 +6,39 @@
 #include <string>
 #include <fstream>
 using namespace std;
+//Ofek
+typedef struct
+{
+	int day[SIZE];
+	int month[SIZE];
+	int year[SIZE];
+} Availabilty;
+
+typedef struct
+{
+	char ch;
+	int day;
+	int month;
+	int year;
+	float S_Hour;
+	float F_Hour;
+	float Hour_Salary;
+	char employer[LENGTH];
+	char employee[LENGTH];
+	int External_id;
+	int Contractor_id;
+	float premium;
+} Job;
+
+typedef struct
+{
+	int seniority;
+	Availabilty a;
+	float Hour_Salary;
+	char Location[LENGTH];
+	char Profession[LENGTH];
+} Booking;
+
 typedef struct
 {
 	char username[LENGTH];
@@ -34,23 +67,9 @@ typedef struct
 
 typedef struct
 {
-	int day;
-	int month;
-	int year;
-	float S_Hour;
-	float F_Hour;
-	float Hour_Salary;
-	char employer[LENGTH];
-	char employee[LENGTH];
-	int C_id;
-	float premium;
-} Job;
-
-typedef struct
-{
+	char ch;
 	char username[LENGTH];
 	char password[LENGTH];
-	char ch;
 	char Firstname[LENGTH];
 	char Lastname[LENGTH];
 	int id;
@@ -60,6 +79,8 @@ typedef struct
 	int Phone_Number;
 	char profession[LENGTH];
 	int seniority;
+	bool CheckInOut;
+	Availabilty a;
 	Job j;
 } Contractor;
 
@@ -67,17 +88,17 @@ bool Exist_Contractor_ID(Contractor* c, int id);
 bool Exist_Company_ID(CompanyEmployee* c, int id);
 bool Exist_External_ID(ExternalEmployee* c, int id);
 bool Exist_ID(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, int id);
-void ReadFromFile(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3);
-void WriteToFile(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3);
+void ReadFromFile(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job* c4);
+void WriteToFile(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job* c4);
 void ContractorMenu(Contractor* c, int index);
 void CompanyEmployeeMenu(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, int index);
 void ExternalEmployeeMenu(ExternalEmployee* c, int index);
-void First_Menu(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3);
+void First_Menu(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job* c4);
 void addNewContractor(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3);
-void login_CE(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3);
-void login_C(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3);
-void login_EE(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3);
-void Register(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3);
+void login_CE(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job* c4);
+void login_C(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job* c4);
+void login_EE(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job* c4);
+void Register(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job* c4);
 bool Exist_Contractor_Username(Contractor* c, char username[]);
 bool Exist_Company_Username(CompanyEmployee* c, char username[]);
 bool Exist_External_Username(ExternalEmployee* c, char username[]);
@@ -90,12 +111,13 @@ int main()
 	CompanyEmployee c1[SIZE] = { 0 };
 	Contractor c2[SIZE] = { 0 };
 	ExternalEmployee c3[SIZE] = { 0 };
-	ReadFromFile(c1, c2, c3);
-	First_Menu(c1, c2, c3);
-	WriteToFile(c1, c2, c3);
+	Job c4[SIZE] = { 0 };
+	ReadFromFile(c1, c2, c3, c4);
+	First_Menu(c1, c2, c3, c4);
+	WriteToFile(c1, c2, c3, c4);
 	return 0;
 }
-void First_Menu(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3)
+void First_Menu(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job* c4)
 {
 	int choice, choice2;
 	cout << "               ContactNest               " << endl;
@@ -105,18 +127,18 @@ void First_Menu(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3)
 	switch (choice)
 	{
 	case 1:
-		login_CE(c1,c2,c3);
+		login_CE(c1,c2,c3,c4);
 		break;
 	case 2:
-		login_C(c1,c2,c3);
+		login_C(c1,c2,c3,c4);
 		break;
 	case 3:
 		cout << "1.Register" << endl << "2.Login" << endl;
 		cin >> choice2;
 		if (choice2 == 1)
-			Register(c1,c2,c3);
+			Register(c1,c2,c3,c4);
 		else if (choice2 == 2)
-			login_EE(c1,c2,c3);
+			login_EE(c1,c2,c3,c4);
 		break;
 	case 4:
 		cout << "Bye Bye." << endl;
@@ -150,7 +172,7 @@ void ContractorMenu(Contractor* c, int index)
 		break;
 	}
 }
-void ReadFromFile(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3)
+void ReadFromFile(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job* c4)
 {
 	int i = 0;
 	ifstream C_In1;
@@ -203,8 +225,27 @@ void ReadFromFile(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3)
 		C_In3 >> c3[i].Phone_Number;
 	}
 	C_In3.close();
+
+	ifstream C_In4;
+	C_In4.open("Booking Database.txt");
+	for (i = 0; i < SIZE; i++)
+	{
+		C_In4 >> c4[i].ch;
+		C_In4 >> c4[i].day;
+		C_In4 >> c4[i].month;
+		C_In4 >> c4[i].year;
+		C_In4 >> c4[i].S_Hour;
+		C_In4 >> c4[i].F_Hour;
+		C_In4 >> c4[i].Hour_Salary;
+		C_In4 >> c4[i].employer;
+		C_In4 >> c4[i].employee;
+		C_In4 >> c4[i].External_id;
+		C_In4 >> c4[i].Contractor_id;
+		C_In4 >> c4[i].premium;
+	}
+	C_In4.close();
 }
-void WriteToFile(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3)
+void WriteToFile(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job* c4)
 {
 	int i = 0;
 	ofstream C_Out1;
@@ -273,6 +314,30 @@ void WriteToFile(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3)
 		
 	}
 	C_Out3.close();//close file
+
+	ifstream C_Out4;
+	C_Out4.open("Booking Database.txt");
+	for (i = 0; i < SIZE; i++)
+	{
+		if (c3[i].ch == 0)
+			break;
+		else
+		{
+			C_Out4 << c4[i].ch << endl;
+			C_Out4 << c4[i].day << endl;
+			C_Out4 << c4[i].month << endl;
+			C_Out4 << c4[i].year << endl;
+			C_Out4 << c4[i].S_Hour << endl;
+			C_Out4 << c4[i].F_Hour << endl;
+			C_Out4 << c4[i].Hour_Salary << endl;
+			C_Out4 << c4[i].employer << endl;
+			C_Out4 << c4[i].employee << endl;
+			C_Out4 << c4[i].External_id << endl;
+			C_Out4 << c4[i].Contractor_id << endl;
+			C_Out4 << c4[i].premium << endl;
+		}
+	}
+	C_Out4.close();
 }
 void addNewContractor(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3)
 {
@@ -341,7 +406,7 @@ void addNewContractor(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3)
 		}
 	}
 }
-void login_CE(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3)
+void login_CE(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job* c4)
 {
 	int choice = 0;
 	char username[LENGTH];
@@ -394,7 +459,7 @@ void login_CE(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3)
 		}
 	}
 }
-void login_C(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3)
+void login_C(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job* c4)
 {
 	int choice = 0;
 	char username[LENGTH];
@@ -447,7 +512,7 @@ void login_C(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3)
 		}
 	}
 }
-void login_EE(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3)
+void login_EE(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job* c4)
 {
 	int choice = 0;
 	char username[LENGTH];
@@ -500,7 +565,7 @@ void login_EE(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3)
 		}
 	}
 }
-void Register(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3)
+void Register(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job* c4)
 {
 	char username[LENGTH];
 	char name[LENGTH];
@@ -716,35 +781,6 @@ bool Exist_ID(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, int id)
 //              ##################################################### EILON ############################################################################
 //              ##################################################### EILON ############################################################################
 /*
-typedef struct
-{
-	int day[Max];
-	int month[Max];
-	int year[Max];
-	float S_Hour;
-	float F_Hour;
-	char employer[20];
-	char employee[20];
-	float Hour_Salary;
-	float total;
-	float premium;
-}Job;
-typedef struct
-{
-	char Firstname[20];
-	char Lastname[20];
-	int id;
-	char City[30];
-	char Adress[30];
-	int Phone_Number;
-	int age;
-	float salary;
-	float hours=0;
-	float MissedDays;
-	bool CheckInOut;
-	int UserID;
-	Job vacation;
-} Contractor;
 
 void ClockReport(Contractor cont[Max],int index)
 {
@@ -1114,58 +1150,6 @@ int SerchAndBook(Contractor cont[SIZE])
 
 	return 0;
 }
-//
-//void InviteHistory(Contractor cont[SIZE])
-//{
-//	cout<< "This is the booking history by the emplooyer:" << endl;
-//	for (int i = 0; i < SIZE; i++)
-//	{
-//		cout << "Profession booked:" << endl;
-//	}
-//
-//}
-
-int main()
-{
-	int menu = 0;
-	int size;
-	float num = 0;
-	int i = 0;
-
-	Contractor c[SIZE] = { NULL };
-	cout << "Enter Name,Surname,ID";
-	cin >> c[0].Firstname >> c[0].Lastname >> c[0].id;
-	cout << endl;
-	cout << c[0].Firstname << endl << c[0].Lastname << endl << c[0].id << endl;
-
-	cout << endl << "Welcome to ContractNest." << endl;
-	cout << "1 - Report hours" << endl << "2 - Salary calculation" << endl << "3 - Vacation report" << endl << "4 - Report hours" << endl << "5 - Work history" << endl << "6 - Exit" << endl;
-
-	while (menu != 6)
-	{
-		cout << "Please enter the given to number to enter a category:" << endl;
-		cin >> menu;
-		switch (menu)
-		{
-		case 1:
-			//ClockReport(c, 0);
-			break;
-		case 2:
-
-			break;
-		case 3:
-			//VacationRequest(c, 0);
-			break;
-		case 4:
-			break;
-		case 5:
-			break;
-		}
-	}
-
-	cout << endl << "Thank you for choosing ContractNest <3" << endl;
-
-	return 0;
 
 
 
