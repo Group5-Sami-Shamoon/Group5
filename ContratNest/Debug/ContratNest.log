@@ -1,4 +1,1 @@
-﻿  Source.cpp
-c:\users\ofek elgozi\group5\contratnest\source.cpp(88): warning C4101: 'num': unreferenced local variable
-c:\users\ofek elgozi\group5\contratnest\source.cpp(134): warning C4129: 'O': unrecognized character escape sequence
-c:\users\ofek elgozi\group5\contratnest\source.cpp(657): warning C4018: '<': signed/unsigned mismatch
+﻿  ContratNest.vcxproj -> C:\Users\Ofek Elgozi\Group5\Debug\ContratNest.exe

@@ -1,12 +1,12 @@
 #pragma once
 #define _CRT_SECURE_NO_WARNINGS
-#define SIZE 50
+#define SIZE 100
 #define LENGTH 20
 #include <iostream>
 #include <string>
 #include <fstream>
 using namespace std;
-//Ofek
+
 typedef struct
 {
 	int day[SIZE];
@@ -20,8 +20,10 @@ typedef struct
 	int day;
 	int month;
 	int year;
-	float S_Hour;
-	float F_Hour;
+	int S_Hour;
+	int S_Min;
+	int F_Hour;
+	int F_Min;
 	float Hour_Salary;
 	char employer[LENGTH];
 	char employee[LENGTH];
@@ -90,7 +92,7 @@ bool Exist_External_ID(ExternalEmployee* c, int id);
 bool Exist_ID(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, int id);
 void ReadFromFile(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job* c4);
 void WriteToFile(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job* c4);
-void ContractorMenu(Contractor* c, int index);
+void ContractorMenu(Contractor* c, Job* c4, int index);
 void CompanyEmployeeMenu(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, int index);
 void ExternalEmployeeMenu(ExternalEmployee* c, int index);
 void First_Menu(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job* c4);
@@ -104,6 +106,8 @@ bool Exist_Company_Username(CompanyEmployee* c, char username[]);
 bool Exist_External_Username(ExternalEmployee* c, char username[]);
 bool Exist_Username(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, char username[]);
 bool Valid_Name(char name[]);
+void Salary_Calculation(Contractor* c2, Job* c4, int index);
+void Report_Hours(Contractor* c2, Job* c4, int index);
 int main()
 {
 	float num;
@@ -147,19 +151,21 @@ void First_Menu(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job* 
 		printf("Error.\n");
 	}
 }
-void ContractorMenu(Contractor* c, int index)
+void ContractorMenu(Contractor* c, Job* c4, int index)
 {
 	int choise;
 	cout << endl;
 	cout << "               Contractor Menu               " << endl;
 	cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
-	cout << "1 - Clock In\Out" << endl << "2 - Salary calculation" << endl << "3 - Vacation report" << endl << "4 - Work history" << endl << "5 - Exit." << endl;
+	cout << "1 - Report Hours" << endl << "2 - Salary calculation" << endl << "3 - Vacation report" << endl << "4 - Work history" << endl << "5 - Exit." << endl;
 	cin >> choise;
 	switch (choise)
 	{
 	case 1:
+		Report_Hours(c, c4, index);
 		break;
 	case 2:
+		Salary_Calculation(c, c4, index);
 		break;
 	case 3:
 		break;
@@ -235,7 +241,9 @@ void ReadFromFile(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job
 		C_In4 >> c4[i].month;
 		C_In4 >> c4[i].year;
 		C_In4 >> c4[i].S_Hour;
+		C_In4 >> c4[i].S_Min;
 		C_In4 >> c4[i].F_Hour;
+		C_In4 >> c4[i].F_Min;
 		C_In4 >> c4[i].Hour_Salary;
 		C_In4 >> c4[i].employer;
 		C_In4 >> c4[i].employee;
@@ -252,7 +260,7 @@ void WriteToFile(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job*
 	C_Out1.open("CompanyEmployees.txt");
 	for (i = 0; i < SIZE; i++)//����� �� �� ������� ����� ���� �����
 	{
-		if (c1[i].id == 0)
+		if (c1[i].ch == 0)
 			break;
 		else
 		{
@@ -273,7 +281,7 @@ void WriteToFile(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job*
 	C_Out2.open("ContractorWorkers.txt");
 	for (i = 0; i < SIZE; i++)//����� �� �� ������� ����� ���� �����
 	{
-		if (c2[i].id == 0)
+		if (c2[i].ch == 0)
 			break;
 		else
 		{
@@ -297,7 +305,7 @@ void WriteToFile(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job*
 	C_Out3.open("ExternalEmployees.txt");
 	for (i = 0; i < SIZE; i++)//����� �� �� ������� ����� ���� �����
 	{
-		if (c3[i].id == 0)
+		if (c3[i].ch == 0)
 			break;
 		else
 		{
@@ -315,11 +323,11 @@ void WriteToFile(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job*
 	}
 	C_Out3.close();//close file
 
-	ifstream C_Out4;
+	ofstream C_Out4;
 	C_Out4.open("Booking Database.txt");
 	for (i = 0; i < SIZE; i++)
 	{
-		if (c3[i].ch == 0)
+		if (c4[i].ch == 0)
 			break;
 		else
 		{
@@ -328,7 +336,9 @@ void WriteToFile(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job*
 			C_Out4 << c4[i].month << endl;
 			C_Out4 << c4[i].year << endl;
 			C_Out4 << c4[i].S_Hour << endl;
+			C_Out4 << c4[i].S_Min << endl;
 			C_Out4 << c4[i].F_Hour << endl;
+			C_Out4 << c4[i].F_Min << endl;
 			C_Out4 << c4[i].Hour_Salary << endl;
 			C_Out4 << c4[i].employer << endl;
 			C_Out4 << c4[i].employee << endl;
@@ -481,7 +491,7 @@ void login_C(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job* c4)
 		{
 			cout << "Vaild username and password, welcome " << c2[i].Firstname << endl;
 			index = i;
-			ContractorMenu(c2, index);
+			ContractorMenu(c2, c4, index);
 		}
 		else if (strcmp(username, c2[i].username) == 0 && !(strcmp(password, c2[i].password) == 0))
 		{
@@ -498,7 +508,7 @@ void login_C(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job* c4)
 					{
 						cout << "Vaild username and password, welcome " << c2[i].Firstname << endl;
 						index = i;
-						ContractorMenu(c2, index);
+						ContractorMenu(c2, c4, index);
 					}
 					break;
 				case 2:
@@ -774,12 +784,51 @@ bool Exist_ID(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, int id)
 	else
 		return true;
 }
+void Salary_Calculation(Contractor* c2, Job* c4, int index)
+{
+	int month;
+	int year;
+	float salary = 0;
+	int sum = 0;
+	int HoursWorked = 0;
+	int Nosafot;
+	int count = 0;
+	cout << "Please enter year you want to calculate:";
+	cin >> year;
+	cout << "Please enter month you want to calculate:";
+	cin >> month;
+	for (int i = 0; i < SIZE; i++)
+	{
+		if (c2[index].id == c4[i].Contractor_id)
+		{
+			if (c4[i].year == year)
+			{
+				if (c4[i].month == month)
+				{
+					count++;
+					HoursWorked = c4[i].F_Hour - c4[i].S_Hour;
+					Nosafot = c4[i].premium * c4[i].Hour_Salary * 1.15;
+					sum = sum + Nosafot + (HoursWorked*c4[i].Hour_Salary);
+				}
+			}
+		}
+	}
+	if (count != 0)
+		cout << "You earned " << sum << " in this month in the year" << endl;
+	else
+		cout << "You didnt work in this month in this year" << endl;
+}
+void Report_Hours(Contractor* c2, Job* c4, int index)
+{
 
-//              ##################################################### EILON ############################################################################
-//              ##################################################### EILON ############################################################################
-//              ##################################################### EILON ############################################################################
-//              ##################################################### EILON ############################################################################
-//              ##################################################### EILON ############################################################################
+
+
+}
+//##################################################### EILON ############################################################################
+//##################################################### EILON ############################################################################
+//##################################################### EILON ############################################################################
+//##################################################### EILON ############################################################################
+//##################################################### EILON ############################################################################
 /*
 
 void ClockReport(Contractor cont[Max],int index)
