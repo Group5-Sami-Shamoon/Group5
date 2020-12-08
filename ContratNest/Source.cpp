@@ -6,7 +6,6 @@
 #include <string>
 #include <fstream>
 using namespace std;
-
 typedef struct
 {
 	char username[LENGTH];
@@ -43,7 +42,7 @@ typedef struct
 	float Hour_Salary;
 	char employer[LENGTH];
 	char employee[LENGTH];
-	float total;
+	int C_id;
 	float premium;
 } Job;
 
@@ -55,7 +54,6 @@ typedef struct
 	char Firstname[LENGTH];
 	char Lastname[LENGTH];
 	int id;
-	float Month_Salary;
 	float Hourly_Pay;
 	char City[LENGTH];
 	char Adress[LENGTH];
@@ -181,7 +179,6 @@ void ReadFromFile(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3)
 		C_In2 >> c2[i].Firstname;
 		C_In2 >> c2[i].Lastname;
 		C_In2 >> c2[i].id;
-		C_In2 >> c2[i].Month_Salary;
 		C_In2 >> c2[i].Hourly_Pay;
 		C_In2 >> c2[i].City;
 		C_In2 >> c2[i].Adress;
@@ -212,7 +209,7 @@ void WriteToFile(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3)
 	int i = 0;
 	ofstream C_Out1;
 	C_Out1.open("CompanyEmployees.txt");
-	for (i = 0; i < SIZE; i++)//леъбъ аъ лм дръерйн мчебх мазш щйрей
+	for (i = 0; i < SIZE; i++)//пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
 	{
 		if (c1[i].id == 0)
 			break;
@@ -233,7 +230,7 @@ void WriteToFile(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3)
 
 	ofstream C_Out2;
 	C_Out2.open("ContractorWorkers.txt");
-	for (i = 0; i < SIZE; i++)//леъбъ аъ лм дръерйн мчебх мазш щйрей
+	for (i = 0; i < SIZE; i++)//пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
 	{
 		if (c2[i].id == 0)
 			break;
@@ -245,7 +242,6 @@ void WriteToFile(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3)
 			C_Out2 << c2[i].Firstname << endl;
 			C_Out2 << c2[i].Lastname << endl;
 			C_Out2 << c2[i].id << endl;
-			C_Out2 << c2[i].Month_Salary << endl;
 			C_Out2 << c2[i].Hourly_Pay << endl;
 			C_Out2 << c2[i].City << endl;
 			C_Out2 << c2[i].Adress << endl;
@@ -258,7 +254,7 @@ void WriteToFile(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3)
 
 	ofstream C_Out3;
 	C_Out3.open("ExternalEmployees.txt");
-	for (i = 0; i < SIZE; i++)//леъбъ аъ лм дръерйн мчебх мазш щйрей
+	for (i = 0; i < SIZE; i++)//пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
 	{
 		if (c3[i].id == 0)
 			break;
@@ -817,12 +813,12 @@ int main()
 	float num = 0;
 	int i = 0;
 
-	//чмйиъ дойгт одчебх
+	//пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 	ifstream beta;
 	beta.open("BetaFile.txt");
 	beta >> size;
 
-	//чмйиъ дойгт одчебх
+	//пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 	ifstream C_In;
 	C_In.open("ContractorWorkers.txt");
 	C_In >> size;
@@ -837,7 +833,7 @@ int main()
 		C_In >> c[i].Firstname >> c[i].Lastname >> c[i].age;
 	C_In.close();*/
 
-	//дзжшъ дойгт едщйрей щме ан йщ цешк
+	//пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ
 	//ofstream C_Out;
 	//C_Out.open("ContractorWorkers.txt");
 	//C_Out << size << endl;
@@ -973,7 +969,7 @@ typedef struct
 
 
 
-bool CheckAvibillity(Contractor cont[SIZE], int day, int month, int year)     //бегч жойреъ
+bool CheckAvibillity(Contractor cont[SIZE], int day, int month, int year)     //пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 {
 	cout << "checks if the cotractor is avilible" << endl;
 	cout << "enter day:" << endl;
@@ -991,7 +987,7 @@ bool CheckAvibillity(Contractor cont[SIZE], int day, int month, int year)     //
 	}
 }
 
-bool Checkprofession(Contractor cont[SIZE],char* profession)      //бегч ан дочцет чййн
+bool Checkprofession(Contractor cont[SIZE],char* profession)      //пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
 {
 	cout << "Enter a profession:" << endl;
 	cin >> profession;
@@ -1084,15 +1080,15 @@ int SerchAndBook(Contractor cont[SIZE])
 	cout << "There are some categories for you:" << endl;
 	cout << "1. Avibillity" << endl << "2. Profession" << endl << "3.Payment" << endl << "4.Place" << endl << "5.Seniority" << endl;
 	//cout << "Avibillity" << endl;
-	//CheckAvibillity(cont, day, month, year);    //озжйш аоъ ае щчш
+	//CheckAvibillity(cont, day, month, year);    //пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅ
 	//cout << "Profession" << endl;
-	//Checkprofession(cont, profession);        //озжйш аоъ ае щчш
+	//Checkprofession(cont, profession);        //пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅ
 	//cout << "Payment" << endl;
-	//Checkpay(cont, pay_hour);                 //озжйш аоъ ае щчш
+	//Checkpay(cont, pay_hour);                 //пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅ
 	//cout << "Place" << endl;
-	//CheckPlace(cont, city);           //озжйш аоъ ае щчш
+	//CheckPlace(cont, city);           //пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅ
 	//cout << "Seniority" << endl;
-	//CheckVetek(cont, vetek);              //озжйш аоъ ае щчш
+	//CheckVetek(cont, vetek);              //пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅ
 
 	for (int i = 0; i < SIZE; i++)
 
