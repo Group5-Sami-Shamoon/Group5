@@ -1,7 +1,7 @@
 #pragma once
 #define _CRT_SECURE_NO_WARNINGS
 #define SIZE 50
-#define SIZE2 28
+#define SIZE2 25
 #define LENGTH 20
 #include <iostream>
 #include <string>
@@ -1079,34 +1079,51 @@ void VacationRequest(Contractor* c2, int index)
 	int day;
 	int month;
 	int year;
+	int amount = 0;
 	int count = 0;
-	cout << "##### Vacation Report #####" << endl << endl;
-	cout << "Please enter date you want to take a vaction" << endl;
+	int count2 = 0;
+	cout << "              Vacation Report              " << endl;
 	cout << "--------------------------------------------" << endl<<endl;
-	cout << "enter day you want to take a vaction:";
-	cin >> day;
-	cout << "enter month you want to take a vaction:";
-	cin >> month;
-	cout << "enter year you want to take a vaction:";
-	cin >> year;
-	if (Date_Vaild(c2, day, month, year, index) == false)
-		cout << "Date is already taken." << endl;
-	else
+	cout << "Please enter how many spesific days you want to take a vaction (Days Need To Be One After Another): " ;
+	cin >> amount;
+	for (int i = 0; i < amount; i++)
 	{
-		for (int j = 0; j < SIZE2; j++)
+		if (i != 0)
+			cout << "Please enter the next vaction day." << endl;
+		cout << "enter day you want to take a vaction:";
+		cin >> day;
+		cout << "enter month you want to take a vaction:";
+		cin >> month;
+		cout << "enter year you want to take a vaction:";
+		cin >> year;
+		cout << endl;
+		while (Date_Vaild(c2, day, month, year, index) == false)
 		{
-			if (c2[index].a.day[j] == 0 && c2[index].a.month[j] == 0 && c2[index].a.year[j] == 0)
-			{
-				c2[index].a.day[j] = day;
-				c2[index].a.month[j] = month;
-				c2[index].a.year[j] = year;
-				cout << "Reported successed." << endl;
-				break;
-			}
-			count++;
+			cout << "This date is not available, please try agian." << endl;
+			cout << "enter day you want to take a vaction:";
+			cin >> day;
+			cout << "enter month you want to take a vaction:";
+			cin >> month;
+			cout << "enter year you want to take a vaction:";
+			cin >> year;
+			cout << endl;
 		}
-		if (count == SIZE2)
-			cout << "There are no free days";
+		{
+			for (int j = 0; j < SIZE2; j++)
+			{
+				if (c2[index].a.day[j] == 0 && c2[index].a.month[j] == 0 && c2[index].a.year[j] == 0)
+				{
+					c2[index].a.day[j] = day;
+					c2[index].a.month[j] = month;
+					c2[index].a.year[j] = year;
+					cout << "Reported successed." << endl << endl;
+					break;
+				}
+				count++;
+			}
+			if (count == SIZE2)
+				cout << "There are no free days";
+		}
 	}
 }
 bool Date_Vaild(Contractor* c2, int day, int month, int year, int index)
