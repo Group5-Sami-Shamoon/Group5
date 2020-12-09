@@ -31,17 +31,17 @@ typedef struct
 	int day;
 	int month;
 	int year;
-	float S_Hour;
-	float S_Min;
-	float F_Hour;
-	float F_Min;
+	int S_Hour;
+	int S_Min;
+	int F_Hour;
+	int F_Min;
 	float Hour_Salary;
 	char employer[LENGTH];
 	char employee[LENGTH];
 	int External_id;
 	int Contractor_id;
-	float premium_hours;
-	float premium_mins;
+	int premium_hours;
+	int premium_mins;
 } Job;
 
 typedef struct
@@ -86,7 +86,6 @@ typedef struct
 	int seniority;
 	int CheckInOut;
 	Availabilty a;
-	Job j;
 } Contractor;
 
 bool Exist_Contractor_ID(Contractor* c, int id);
@@ -124,10 +123,11 @@ void workHistory(ExternalEmployee* c3, Job* c4, int index);
 void printJob(Job c4);
 void ContractorWorkHistory(Contractor* c2, int index);
 void printContractor(Contractor c2);
-
+void FindContractors(Contractor* c2);
+bool SameHourlyPay(Contractor* c2, float pay_hour, int index);
+bool CheckAttendanceClock(Contractor* c2, int In_Out, int index);
 int main()
 {
-	float num;
 	int i = 0, choise = 0, count = 0;
 	CompanyEmployee c1[SIZE] = { 0 };
 	Contractor c2[SIZE] = { 0 };
@@ -717,7 +717,7 @@ void CompanyEmployeeMenu(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* 
 	cout << endl;
 	cout << "               Company Employee Menu               " << endl;
 	cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
-	cout << "1 - Add Contractor" << endl << "2 - Statistic" << endl << "3 - Contractor Inforomation" << endl << "4 - Exit."<< endl;
+	cout << "1 - Add Contractor" << endl << "2 - Statistic Analysis" << endl << "3 - Contractor Inforomation" << endl << "4 - Exit."<< endl;
 	cin >> choise;
 	switch (choise)
 	{
@@ -727,6 +727,7 @@ void CompanyEmployeeMenu(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* 
 	case 2:
 		break;
 	case 3:
+		FindContractors(c2);
 		break;
 	case 4:
 		cout << "Bye Bye." << endl;
@@ -842,11 +843,11 @@ void Salary_Calculation(Contractor* c2, Job* c4, int index)
 {
 	int month;
 	int year;
-	int sum = 0;
-	int HoursWorked = 0;
-	int MinsWorked = 0;
-	int Nosafot_hours;
-	int Nosafot_mins;
+	float sum = 0;
+	float HoursWorked = 0;
+	float MinsWorked = 0;
+	float Nosafot_hours;
+	float Nosafot_mins;
 	int count = 0;
 	cout << "Please enter year you want to calculate:";
 	cin >> year;
@@ -888,12 +889,12 @@ void Report_Hours(Contractor* c2, Job* c4, int index)
 {
 	int day, month, year,count=0;
 	int start_hour, start_min, finish_hour, finish_min, premium_hours, premium_mins;
-	cout << "Please enter the year you want to report:";
-	cin >> year;
-	cout << "Please enter the month you want to report:";
-	cin >> month;
 	cout << "Please enter the day you want to report:";
 	cin >> day;
+	cout << "Please enter the month you want to report:";
+	cin >> month;
+	cout << "Please enter the year you want to report:";
+	cin >> year;
 	for (int i = 0; i < SIZE; i++)
 	{
 		if (c2[index].id == c4[i].Contractor_id)
@@ -976,9 +977,21 @@ bool Checkpay(Contractor* c2, float pay_hour, int index)
 		return true;
 	return false;
 }
+bool SameHourlyPay(Contractor* c2, float pay_hour, int index)
+{
+	if (c2[index].Hourly_Pay == pay_hour)
+		return true;
+	return false;
+}
 bool CheckVetek(Contractor* c2, int vetek2, int index)
 {
 	if (c2[index].seniority >= vetek2)
+		return true;
+	return false;
+}
+bool CheckAttendanceClock(Contractor* c2, int In_Out, int index)
+{
+	if (c2[index].CheckInOut == In_Out)
 		return true;
 	return false;
 }
@@ -1179,5 +1192,120 @@ void printContractor(Contractor c2)
 	cout << "City: " << c2.City<< endl;
 	cout << "Adress: " << c2.Adress<< endl;
 	cout << "profession " <<c2.profession<< endl;
-	cout << "Seniority: " <<c2.seniority<< endl;
+	cout << "Seniority: " <<c2.seniority<< endl << endl;
+}
+void Statistic_Analysis(Contractor* c2, Job* c4)
+{
+
+}
+void FindContractors(Contractor* c2) 
+{
+	int tryAgain = 0;
+	int In_Out = 0;
+	int count = 0;
+	int searchChoice;
+	char PlacePicked[LENGTH];
+	char ProfessionPicked[LENGTH];
+	int vetekPicked;
+	float payPicked;
+	while (tryAgain != 2)
+	{
+		count = 0;
+		cout << "Let's find a contractor, what would you like to search for? your options:" << endl;
+		cout << "1. Search by profession" << endl;
+		cout << "2. Search by place" << endl;
+		cout << "3. Search through pay by hour" << endl;
+		cout << "4. Attendance clock" << endl;
+		cin >> searchChoice;
+		switch (searchChoice)
+		{
+
+		case 1: 
+			cout << "Please enter the profession" << endl;
+			cin >> ProfessionPicked;
+			for (int i = 0; i < SIZE; i++) 
+			{
+				if (Checkprofession(c2, ProfessionPicked, i) == true)
+				{
+					printContractor(c2[i]);
+					count++;
+				}
+			}
+			if (count == 0)
+				cout << "There Was No Contractors Found." << endl;
+			tryAgain = 2;
+			break;
+
+		case 2: 
+			cout << "Please enter the place" << endl;
+			cin >> PlacePicked;
+			for (int i = 0; i < SIZE; i++) 
+			{
+				if (CheckPlace(c2, PlacePicked, i) == true)
+				{
+					printContractor(c2[i]);
+					count++;
+				}
+			}
+			if (count == 0)
+				cout << "There Was No Contractors Found." << endl;
+			tryAgain = 2;
+			break;
+		case 3: 
+			cout << "Please enter pay by hour" << endl;
+			cin >> payPicked;
+			for (int i = 0; i < SIZE; i++) 
+			{
+				if (SameHourlyPay(c2, payPicked, i) == true)
+				{
+					printContractor(c2[i]);
+					count++;
+				}
+			}
+			if (count == 0)
+				cout << "There Was No Contractors Found." << endl;
+			tryAgain = 2;
+			break;
+		case 4:
+			cout << "Please enter which type of contractors you would like to see, (In/Out Clock)" << endl;
+			cout << "0.Out Shift" << endl << "1.In Shift" << endl;
+			cin >> In_Out;
+			for (int i = 0; i < SIZE; i++)
+			{
+				if (CheckAttendanceClock(c2, In_Out, i) == true && c2[i].id !=0)
+				{
+					printContractor(c2[i]);
+					count++;
+				}
+			}
+			if (count == 0)
+				cout << "There Was No Contractors Found." << endl;
+			tryAgain = 2;
+			break;
+		default:
+			cout << "No such an option." << endl;
+			cout << "Whould you like to try again?"<<endl;
+			cout << "1.Yes" << endl << "2.No" << endl;
+			cin >> tryAgain;
+			break;
+		}
+	}
+	cout << endl;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	cout << "Bye Bye." << endl;
 }
