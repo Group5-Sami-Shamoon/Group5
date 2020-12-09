@@ -3,10 +3,25 @@
 #define SIZE 50
 #define SIZE2 25
 #define LENGTH 20
+#define RED "\033[1;31m" //color red
+#define GREEN "\033[1;32m" //color green
+#define YELLOW "\033[1;33m" //color yellow
+#define BLUE "\033[1;34m" //color blue
+#define PINK "\033[1;35m" //color pink
+#define MAGENTA "\033[1;36m" //color magenta
+#define WHITE "\033[0m"    //color reset to white
+#define BLOCKCOLOR "\033[1;100;30m" //block of color
 #include <iostream>
 #include <string>
 #include <fstream>
 using namespace std;
+
+typedef struct
+{
+	char c[LENGTH];
+	int index;
+} City;
+
 typedef struct
 {
 	int day[SIZE2] = { 0 };
@@ -135,6 +150,7 @@ int main()
 	Contractor c2[SIZE] = { 0 };
 	ExternalEmployee c3[SIZE] = { 0 };
 	Job c4[SIZE] = { 0 };
+	City c5[SIZE] = { 0 };
 	ReadFromFile(c1, c2, c3, c4);
 	First_Menu(c1, c2, c3, c4);
 	WriteToFile(c1, c2, c3, c4);
@@ -1215,7 +1231,7 @@ void Statistic_Analysis(Contractor* c2, Job* c4)
 	{
 		if (c2[i].id != 0)
 		{
-			for (int j = 0; j < SIZE; j++)
+			for (int j = 0; j < SIZE; j++)//עוברת על כל העבודות
 			{
 				if (c4[j].Contractor_id == c2[i].id)
 				{
@@ -1231,7 +1247,7 @@ void Statistic_Analysis(Contractor* c2, Job* c4)
 					}
 					Nosafot_hours = c4[i].premium_hours;
 					Nosafot_mins = c4[i].premium_mins;
-					sum = sum + HoursWorked + MinsWorked + Nosafot_hours + Nosafot_mins;
+					sum = sum + HoursWorked + MinsWorked + Nosafot_hours + Nosafot_mins;//סך הכל שעות ודקות
 				}
 			}
 			if (sum >= MaxHours1)
@@ -1242,7 +1258,6 @@ void Statistic_Analysis(Contractor* c2, Job* c4)
 				MaxHours3 = sum;
 		}
 	}
-
 }
 void FindContractors(Contractor* c2)
 {
