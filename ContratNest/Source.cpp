@@ -1,19 +1,29 @@
 #pragma once
 #define _CRT_SECURE_NO_WARNINGS
 #define SIZE 50
-#define SIZE2 3
+#define SIZE2 28
 #define LENGTH 20
 #include <iostream>
 #include <string>
 #include <fstream>
 using namespace std;
-//Aasdasd
 typedef struct
 {
 	int day[SIZE2] = { 0 };
 	int month[SIZE2] = { 0 };
 	int year[SIZE2] = { 0 };
 } Availabilty;
+
+typedef struct
+{
+	int seniority;
+	int day;
+	int month;
+	int year;
+	float Hour_Salary;
+	char Location[LENGTH];
+	char Profession[LENGTH];
+} Booking;
 
 typedef struct
 {
@@ -33,15 +43,6 @@ typedef struct
 	float premium_hours;
 	float premium_mins;
 } Job;
-
-typedef struct
-{
-	int seniority;
-	Availabilty a;
-	float Hour_Salary;
-	char Location[LENGTH];
-	char Profession[LENGTH];
-} Booking;
 
 typedef struct
 {
@@ -96,7 +97,7 @@ void ReadFromFile(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job
 void WriteToFile(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job* c4);
 void ContractorMenu(Contractor* c, Job* c4, int index);
 void CompanyEmployeeMenu(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, int index);
-void ExternalEmployeeMenu(ExternalEmployee* c, int index);
+void ExternalEmployeeMenu(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job* c4, int index);
 void First_Menu(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job* c4);
 void addNewContractor(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3);
 void login_CE(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job* c4);
@@ -110,6 +111,16 @@ bool Exist_Username(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, c
 bool Valid_Name(char name[]);
 void Salary_Calculation(Contractor* c2, Job* c4, int index);
 void Report_Hours(Contractor* c2, Job* c4, int index);
+bool CheckAvibillity(Contractor* c2, int day, int month, int year, int index);
+bool Checkprofession(Contractor* c2, char profession[], int index);
+bool CheckPlace(Contractor* c2, char city[], int index);
+bool Checkpay(Contractor* c2, float pay_hour, int index);
+bool CheckVetek(Contractor* c2, int vetek2, int index);
+void Search(Contractor* c2, ExternalEmployee* c3, Job* c4 , int index1);
+void Book(Booking b, Contractor* c2, ExternalEmployee* c3, Job* c4, int index1, int index2);
+void VacationRequest(Contractor* c2, int index);
+bool Date_Vaild(Contractor* c2, int day, int month, int year, int index);
+
 int main()
 {
 	float num;
@@ -120,7 +131,6 @@ int main()
 	Job c4[SIZE] = { 0 };
 	ReadFromFile(c1, c2, c3, c4);
 	First_Menu(c1, c2, c3, c4);
-	c2[0].a.day[0] = 2;
 	WriteToFile(c1, c2, c3, c4);
 	return 0;
 }
@@ -151,7 +161,7 @@ void First_Menu(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job* 
 		cout << "Bye Bye." << endl;
 		break;
 	default:
-		printf("Error.\n");
+		cout << "Error" << endl;
 	}
 }
 void ContractorMenu(Contractor* c, Job* c4, int index)
@@ -171,6 +181,7 @@ void ContractorMenu(Contractor* c, Job* c4, int index)
 		Salary_Calculation(c, c4, index);
 		break;
 	case 3:
+		VacationRequest(c, index);
 		break;
 	case 4:
 		break;
@@ -580,7 +591,7 @@ void login_EE(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job* c4
 		{
 			cout << "Vaild username and password, welcome " << c3[i].Firstname <<endl;
 			index = i;
-			ExternalEmployeeMenu(c3, index);
+			ExternalEmployeeMenu(c1,c2,c3, c4, index);
 		}
 		else if (strcmp(username, c3[i].username) == 0 && !(strcmp(password, c3[i].password) == 0))
 		{
@@ -597,7 +608,7 @@ void login_EE(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job* c4
 					{
 						cout << "Vaild username and password, welcome " << c3[i].Firstname << endl;
 						index = i;
-						ExternalEmployeeMenu(c3, index);
+						ExternalEmployeeMenu(c1, c2, c3, c4, index);
 					}
 					break;
 				case 2:
@@ -672,7 +683,7 @@ void Register(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job* c4
 		}
 	}
 }
-void ExternalEmployeeMenu(ExternalEmployee* c, int index)
+void ExternalEmployeeMenu(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job* c4, int index)
 {
 	int choise;
 	cout << endl;
@@ -683,6 +694,7 @@ void ExternalEmployeeMenu(ExternalEmployee* c, int index)
 	switch (choise)
 	{
 	case 1:
+		Search(c2, c3, c4, index);
 		break;
 	case 2:
 		break;
@@ -931,25 +943,172 @@ void Report_Hours(Contractor* c2, Job* c4, int index)
 
 
 }
-//##################################################### EILON ############################################################################
-//##################################################### EILON ############################################################################
-//##################################################### EILON ############################################################################
-//##################################################### EILON ############################################################################
-//##################################################### EILON ############################################################################
-/*
-void VacationRequest(Contractor cont[Max],int indexush)
+bool CheckAvibillity(Contractor* c2, int day, int month, int year, int index)
 {
-	int days;
-	cout << "## Vacation report ##" << endl;
-	cout << "How many days would you like to take off?:" << endl;
-	do
-		cin >> days;
-	while (days <= 0);
-	cout << "Which dates would you like to take off? **(Day,Month,Year)** :" << endl;
-	for (int i = 0; i < days; i++)
-		cin >> cont[indexush].vacation.day[i] >> cont[indexush].vacation.month[i] >> cont[indexush].vacation.year[i];
-	cout << "Requested dates:" << endl;
-	for (int i = 0; i < days; i++)
-		cout << cont[indexush].vacation.day[i] << "/" << cont[indexush].vacation.month[i] << "/" << cont[indexush].vacation.year[i] << endl;
+	for (int j = 0; j < SIZE2; j++)
+	{
+		if (c2[index].a.day[j] == day && c2[index].a.month[j] == month && c2[index].a.year[j] == year)
+			return false;
+	}
+	return true;
 }
-*/
+bool Checkprofession(Contractor* c2, char profession[], int index)
+{
+	if (strcmp(c2[index].profession, profession) == 0)
+		return true;
+	return false;
+}
+bool CheckPlace(Contractor* c2, char city[], int index)
+{
+	if (strcmp(c2[index].City, city) == 0)
+		return true;
+	return false;
+}
+bool Checkpay(Contractor* c2, float pay_hour, int index)
+{
+	if (c2[index].Hourly_Pay <= pay_hour)
+		return true;
+	return false;
+}
+bool CheckVetek(Contractor* c2, int vetek2, int index)
+{
+	if (c2[index].seniority >= vetek2)
+		return true;
+	return false;
+}
+void Search(Contractor* c2, ExternalEmployee* c3, Job* c4, int index1)
+{
+	int day, month, year;
+	int count = 0;
+	int index2 = 0;
+	char profession[LENGTH];
+	float pay_hour;
+	char city[LENGTH];
+	int vetek;
+	Booking b = { 0 };
+	cout << "Here you can serch the contractor for you!" << endl;
+	cout << "------------------------------------------" << endl;
+	cout << "There are some categories for you" << endl;
+	cout << "1. Avibillity" << endl << "2. Profession" << endl << "3.Payment" << endl << "4.Place" << endl << "5.Seniority" << endl;
+	cout << "Please enter day:";
+	cin >> day;
+	cout << "Please enter month:";
+	cin >> month;
+	cout << "Please enter year:";
+	cin >> year;
+	cout << "Please enter profession:";
+	cin >> profession;
+	cout << "Please enter payment:";
+	cin >> pay_hour;
+	cout << "Please enter place:";
+	cin >> city;
+	cout << "Please enter seniority:";
+	cin >> vetek;
+	for(int i=0;i<SIZE;i++)
+	{
+		if (CheckAvibillity(c2, day, month, year, i) == true && Checkprofession(c2, profession, i) == true && Checkpay(c2, pay_hour, i) == true && CheckPlace(c2, city, i) == true && CheckVetek(c2, vetek, i) == true)
+		{
+			cout << c2[i].Firstname << " " << c2[i].Lastname << " " << "from " << c2[i].City << endl;
+			b.Hour_Salary = pay_hour;
+			strcpy(b.Location, city);
+			strcpy(b.Profession, profession);
+			b.seniority = vetek;
+			b.day = day;
+			b.month = month;
+			b.year = year;
+			count++;
+			Book(b, c2, c3, c4, index1, i);
+			break;
+		}
+	}
+	if (count == 0)
+	{
+		cout << "------------------------------" << endl;
+		cout << "     No contractors found     " << endl;
+		cout << "------------------------------" << endl;
+	}
+}
+void Book(Booking b, Contractor* c2, ExternalEmployee* c3, Job* c4, int index1, int index2)
+{
+	
+	for (int j = 0; j < SIZE2; j++)
+	{
+		if (c2[index2].a.day[j] == 0 && c2[index2].a.month[j] == 0 && c2[index2].a.year[j] == 0)
+		{
+			c2[index2].a.day[j] = b.day;
+			c2[index2].a.month[j] = b.month;
+			c2[index2].a.year[j] = b.year;
+			break;
+		}
+	}
+	for (int i = 0; i < SIZE; i++)
+	{
+		if (c4[i].ch == 0)
+		{
+			c4[i].ch = '*';
+			c4[i].day = b.day;
+			c4[i].month = b.month;
+			c4[i].year = b.year;
+			cout << "Please enter start hour:";
+			cin >> c4[i].S_Hour;
+			cout << "Please enter start min:";
+			cin >> c4[i].S_Min;
+			cout << "Please enter finish hour:";
+			cin >> c4[i].F_Hour;
+			cout << "Please enter finish min:";
+			cin >> c4[i].F_Min;
+			c4[i].Hour_Salary=b.Hour_Salary;
+			strcpy(c4[i].employer, c3[index1].Firstname);
+			strcpy(c4[i].employee, c2[index2].Firstname);
+			c4[i].External_id = c3[index1].id;
+			c4[i].Contractor_id = c2[index2].id;
+			c4[i].premium_hours = 0;
+			c4[i].premium_mins = 0;
+			break;
+		}
+	}
+}
+void VacationRequest(Contractor* c2, int index)
+{
+	int day;
+	int month;
+	int year;
+	int count = 0;
+	cout << "##### Vacation Report #####" << endl << endl;
+	cout << "Please enter date you want to take a vaction" << endl;
+	cout << "--------------------------------------------" << endl<<endl;
+	cout << "enter day you want to take a vaction:";
+	cin >> day;
+	cout << "enter month you want to take a vaction:";
+	cin >> month;
+	cout << "enter year you want to take a vaction:";
+	cin >> year;
+	if (Date_Vaild(c2, day, month, year, index) == false)
+		cout << "Date is already taken." << endl;
+	else
+	{
+		for (int j = 0; j < SIZE2; j++)
+		{
+			if (c2[index].a.day[j] == 0 && c2[index].a.month[j] == 0 && c2[index].a.year[j] == 0)
+			{
+				c2[index].a.day[j] = day;
+				c2[index].a.month[j] = month;
+				c2[index].a.year[j] = year;
+				cout << "Reported successed." << endl;
+				break;
+			}
+			count++;
+		}
+		if (count == SIZE2)
+			cout << "There are no free days";
+	}
+}
+bool Date_Vaild(Contractor* c2, int day, int month, int year, int index)
+{
+	for (int j = 0; j < SIZE2; j++)
+	{
+		if (c2[index].a.day[j] == day && c2[index].a.month[j] == month && c2[index].a.year[j] == year)
+			return false;
+	}
+	return true;
+}
