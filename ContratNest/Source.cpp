@@ -95,7 +95,7 @@ bool Exist_ID(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, int id)
 void ReadFromFile(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job* c4);
 void WriteToFile(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job* c4);
 void ContractorMenu(Contractor* c, Job* c4, int index);
-void CompanyEmployeeMenu(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, int index);
+void CompanyEmployeeMenu(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job* c4, int index);
 void ExternalEmployeeMenu(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job* c4, int index);
 void First_Menu(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job* c4);
 void addNewContractor(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3);
@@ -126,6 +126,7 @@ void printContractor(Contractor c2);
 void FindContractors(Contractor* c2);
 bool SameHourlyPay(Contractor* c2, float pay_hour, int index);
 bool CheckAttendanceClock(Contractor* c2, int In_Out, int index);
+void Statistic_Analysis(Contractor* c2, Job* c4);
 int main()
 {
 	int i = 0, choise = 0, count = 0;
@@ -490,7 +491,7 @@ void login_CE(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job* c4
 		{
 			cout << "Vaild username and password, welcome " << c1[i].Firstname << endl;
 			index = i;
-			CompanyEmployeeMenu(c1,c2,c3 ,index);
+			CompanyEmployeeMenu(c1,c2,c3 ,c4,index);
 		}
 		else if (strcmp(username, c1[i].username) == 0 && !(strcmp(password, c1[i].password) == 0))
 		{
@@ -507,7 +508,7 @@ void login_CE(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job* c4
 					{
 						cout << "Vaild username and password, welcome " << c1[i].Firstname << endl;
 						index = i;
-						CompanyEmployeeMenu(c1, c2,c3,index);
+						CompanyEmployeeMenu(c1, c2,c3,c4, index);
 					}
 					break;
 				case 2:
@@ -711,7 +712,7 @@ void ExternalEmployeeMenu(CompanyEmployee* c1, Contractor* c2, ExternalEmployee*
 		break;
 	}
 }
-void CompanyEmployeeMenu(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, int index)
+void CompanyEmployeeMenu(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job* c4, int index)
 {
 	int choise;
 	cout << endl;
@@ -725,6 +726,7 @@ void CompanyEmployeeMenu(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* 
 		addNewContractor(c1, c2, c3);
 		break;
 	case 2:
+		Statistic_Analysis(c2, c4);
 		break;
 	case 3:
 		FindContractors(c2);
@@ -1196,6 +1198,75 @@ void printContractor(Contractor c2)
 }
 void Statistic_Analysis(Contractor* c2, Job* c4)
 {
+	int MaxVetek1=0,MaxVetek2=0,MaxVetek3=0;
+	int index1=0, index2=0, index3=0;
+	int MaxHours1=0,MaxHours2=0,MaxHours3=0;
+	int MaxLocation1=0,MaxLocation2=0,MaxLocation3=0;
+	int HoursWorked=0, MinsWorked=0, Nosafot_hours=0, Nosafot_mins=0;
+	int sum = 0, temp1 = 0, temp2 = 0, temp3 = 0;
+	for (int i = 0; i < SIZE; i++)
+	{
+		if (c2[i].id != 0)
+		{
+			if (c2[i].seniority > MaxVetek1)
+			{
+				temp2 = index2;
+				index2 = index1;
+				index3 = temp2;
+				MaxVetek1 = c2[i].seniority;
+				index1 = i;
+				temp1 = index1;
+			}
+			else if (c2[i].seniority <= MaxVetek1 && c2[i].seniority >= MaxVetek2)
+			{
+				temp2 = index2;
+				index3 = index2;
+				MaxVetek2 = c2[i].seniority;
+				index2 = i;
+			}
+			else if (c2[i].seniority <= MaxVetek2 && c2[i].seniority >= MaxVetek3)
+			{
+				MaxVetek3 = c2[i].seniority;
+				index3 = i;
+			}
+		}
+	}
+	cout << "    Seniority    " << endl;
+	cout << "~~~~~~~~~~~~~~~~~" << endl;
+	cout << "1." << c2[index1].Firstname << " " << c2[index1].Lastname << " From" << " " << c2[index1].City << " Seniority:" << MaxVetek1 << endl;
+	cout << "2." << c2[index2].Firstname << " " << c2[index2].Lastname << " From" << " " << c2[index2].City << " Seniority:" << MaxVetek2 << endl;
+	cout << "3." << c2[index3].Firstname << " " << c2[index3].Lastname << " From" << " " << c2[index3].City << " Seniority:" << MaxVetek3 << endl;
+	for (int i = 0; i < SIZE; i++)
+	{
+		if (c2[i].id != 0)
+		{
+			for (int j = 0; j < SIZE; j++)
+			{
+				if (c4[j].Contractor_id == c2[i].id)
+				{
+					if (c4[i].F_Min >= c4[i].S_Min)
+					{
+						HoursWorked = (c4[i].F_Hour - c4[i].S_Hour);
+						MinsWorked = c4[i].F_Min - c4[i].S_Min;
+					}
+					else
+					{
+						HoursWorked = c4[i].F_Hour - c4[i].S_Hour - 1;
+						MinsWorked = 60 - c4[i].S_Min + c4[i].F_Min;
+					}
+					Nosafot_hours = c4[i].premium_hours;
+					Nosafot_mins = c4[i].premium_mins;
+					sum = sum + HoursWorked + MinsWorked + Nosafot_hours + Nosafot_mins;
+				}
+			}
+			if (sum >= MaxHours1)
+				MaxHours1 = sum;
+			else if (sum >= MaxHours2 && sum < MaxHours1)
+				MaxHours2 = sum;
+			else if (sum >= MaxHours3 && sum < MaxHours2 && sum < MaxHours1)
+				MaxHours3 = sum;
+		}
+	}
 
 }
 void FindContractors(Contractor* c2) 
@@ -1219,7 +1290,6 @@ void FindContractors(Contractor* c2)
 		cin >> searchChoice;
 		switch (searchChoice)
 		{
-
 		case 1: 
 			cout << "Please enter the profession" << endl;
 			cin >> ProfessionPicked;

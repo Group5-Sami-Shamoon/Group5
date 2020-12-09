@@ -97,7 +97,7 @@ Rehovot
 C
 50
 Mechanic
-0
+1
 0
 10
 0
@@ -185,7 +185,7 @@ Ashdod
 A
 50
 Zeva
-0
+1
 0
 0
 0
@@ -269,11 +269,11 @@ Noa
 Fadida
 4
 30.5
-Ashdod
+Ashkelon
 A
 52
 Mechanic
-0
+2
 0
 0
 0
