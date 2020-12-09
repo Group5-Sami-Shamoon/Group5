@@ -18,9 +18,9 @@ using namespace std;
 
 typedef struct
 {
-	char c[LENGTH];
-	int index;
-} City;
+	char city[LENGTH];
+	int counter;
+} CityCheck;
 
 typedef struct
 {
@@ -110,11 +110,11 @@ bool Exist_ID(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, int id)
 void ReadFromFile(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job* c4);
 void WriteToFile(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job* c4);
 void ContractorMenu(Contractor* c, Job* c4, int index);
-void CompanyEmployeeMenu(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job* c4, int index);
+void CompanyEmployeeMenu(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job* c4, CityCheck* c5, int index);
 void ExternalEmployeeMenu(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job* c4, int index);
-void First_Menu(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job* c4);
+void First_Menu(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job* c4, CityCheck* c5);
 void addNewContractor(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3);
-void login_CE(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job* c4);
+void login_CE(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job* c4, CityCheck* c5);
 void login_C(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job* c4);
 void login_EE(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job* c4);
 void Register(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job* c4);
@@ -141,7 +141,7 @@ void printContractor(Contractor c2);
 void FindContractors(Contractor* c2);
 bool SameHourlyPay(Contractor* c2, float pay_hour, int index);
 bool CheckAttendanceClock(Contractor* c2, int In_Out, int index);
-void Statistic_Analysis(Contractor* c2, Job* c4);
+void StatisticsAnalysis(Contractor* c2, Job* c4, CityCheck* c5);
 bool CheckName(Contractor* c2, char name[], int index);
 int main()
 {
@@ -150,13 +150,13 @@ int main()
 	Contractor c2[SIZE] = { 0 };
 	ExternalEmployee c3[SIZE] = { 0 };
 	Job c4[SIZE] = { 0 };
-	City c5[SIZE] = { 0 };
+	CityCheck c5[SIZE] = { 0 };
 	ReadFromFile(c1, c2, c3, c4);
-	First_Menu(c1, c2, c3, c4);
+	First_Menu(c1, c2, c3, c4,c5);
 	WriteToFile(c1, c2, c3, c4);
 	return 0;
 }
-void First_Menu(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job* c4)
+void First_Menu(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job* c4, CityCheck* c5)
 {
 	int choice, choice2;
 	cout << "               ContactNest               " << endl;
@@ -166,7 +166,7 @@ void First_Menu(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job* 
 	switch (choice)
 	{
 	case 1:
-		login_CE(c1, c2, c3, c4);
+		login_CE(c1, c2, c3, c4,c5);
 		break;
 	case 2:
 		login_C(c1, c2, c3, c4);
@@ -486,7 +486,7 @@ void addNewContractor(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3)
 		}
 	}
 }
-void login_CE(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job* c4)
+void login_CE(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job* c4, CityCheck* c5)
 {
 	int choice = 0;
 	char username[LENGTH];
@@ -508,7 +508,7 @@ void login_CE(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job* c4
 		{
 			cout << "Vaild username and password, welcome " << c1[i].Firstname << endl;
 			index = i;
-			CompanyEmployeeMenu(c1, c2, c3, c4, index);
+			CompanyEmployeeMenu(c1, c2, c3, c4, c5 , index);
 		}
 		else if (strcmp(username, c1[i].username) == 0 && !(strcmp(password, c1[i].password) == 0))
 		{
@@ -525,7 +525,7 @@ void login_CE(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job* c4
 					{
 						cout << "Vaild username and password, welcome " << c1[i].Firstname << endl;
 						index = i;
-						CompanyEmployeeMenu(c1, c2, c3, c4, index);
+						CompanyEmployeeMenu(c1, c2, c3, c4, c5, index);
 					}
 					break;
 				case 2:
@@ -729,7 +729,7 @@ void ExternalEmployeeMenu(CompanyEmployee* c1, Contractor* c2, ExternalEmployee*
 		break;
 	}
 }
-void CompanyEmployeeMenu(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job* c4, int index)
+void CompanyEmployeeMenu(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job* c4, CityCheck* c5, int index)
 {
 	int choise;
 	cout << endl;
@@ -743,7 +743,7 @@ void CompanyEmployeeMenu(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* 
 		addNewContractor(c1, c2, c3);
 		break;
 	case 2:
-		Statistic_Analysis(c2, c4);
+		StatisticsAnalysis(c2, c4, c5);
 		break;
 	case 3:
 		FindContractors(c2);
@@ -1219,44 +1219,161 @@ void printContractor(Contractor c2)
 	cout << "profession " << c2.profession << endl;
 	cout << "Seniority: " << c2.seniority << endl << endl;
 }
-void Statistic_Analysis(Contractor* c2, Job* c4)
+void StatisticsAnalysis(Contractor* c2, Job* c4, CityCheck* c5)
 {
-	int MaxVetek1 = 0, MaxVetek2 = 0, MaxVetek3 = 0;
-	int index1 = 0, index2 = 0, index3 = 0;
+	int menu = 0;
+	int index1=0, index2=0, index3=0;
+	int index4=0, index5=0, index6=0;
+	int mostSenior1 = 0, mostSenior2 = 0, mostSenior3 = 0;
 	int MaxHours1 = 0, MaxHours2 = 0, MaxHours3 = 0;
 	int MaxLocation1 = 0, MaxLocation2 = 0, MaxLocation3 = 0;
 	int HoursWorked = 0, MinsWorked = 0, Nosafot_hours = 0, Nosafot_mins = 0;
-	int sum = 0, temp1 = 0, temp2 = 0, temp3 = 0;
-	for (int i = 0; i < SIZE; i++)
+	int sum = 0;
+	int countCity1 = 0, countCity2 = 0, countCity3 = 0;
+	int cityIndex1 = 0, cityIndex2 = 0, cityIndex3 = 0;
+	char mostCity[SIZE];
+	cout << "### Statistics Analysis ###" << endl;
+	cout << "Enter given number to enter category" << endl << "1 - Contractors with most hours" << endl << "2 - Contractors with most seniority" << endl << "3 - Most popular city among the contractors" << endl;
+	cin >> menu;
+	switch (menu)
 	{
-		if (c2[i].id != 0)
+	case 1:
+	{
+		for (int i = 0; i < SIZE; i++)//מערך קבלנים
 		{
-			for (int j = 0; j < SIZE; j++)//עוברת על כל העבודות
+			if (c2[i].id != 0)//תעודת זהות לא אפס
 			{
-				if (c4[j].Contractor_id == c2[i].id)
+				sum = 0;
+				for (int j = 0; j < SIZE; j++)//מערך עבודות
 				{
-					if (c4[i].F_Min >= c4[i].S_Min)
+					if (c4[j].Contractor_id == c2[i].id)//תעודת זהות של הקבלן זהה לתעודת זהות בעבודה
 					{
-						HoursWorked = (c4[i].F_Hour - c4[i].S_Hour);
-						MinsWorked = c4[i].F_Min - c4[i].S_Min;
+						if (c4[i].F_Min >= c4[i].S_Min)
+						{
+							HoursWorked = c4[i].F_Hour - c4[i].S_Hour;
+							MinsWorked = c4[i].F_Min - c4[i].S_Min;
+						}
+						else
+						{
+							HoursWorked = c4[i].F_Hour - c4[i].S_Hour - 1;
+							MinsWorked = 60 - c4[i].S_Min + c4[i].F_Min;
+						}
+						Nosafot_hours = c4[i].premium_hours;
+						Nosafot_mins = c4[i].premium_mins;
+						sum = sum + HoursWorked*60 + MinsWorked + Nosafot_hours*60 + Nosafot_mins;
 					}
-					else
-					{
-						HoursWorked = c4[i].F_Hour - c4[i].S_Hour - 1;
-						MinsWorked = 60 - c4[i].S_Min + c4[i].F_Min;
-					}
-					Nosafot_hours = c4[i].premium_hours;
-					Nosafot_mins = c4[i].premium_mins;
-					sum = sum + HoursWorked + MinsWorked + Nosafot_hours + Nosafot_mins;//סך הכל שעות ודקות
+				}
+				if (sum > MaxHours1)
+				{
+					MaxHours3 = MaxHours2;
+					index6 = index5;
+					MaxHours2 = MaxHours1;
+					index5 = index4;
+					MaxHours1 = sum;
+					index4 = i;
+				}
+				else if (sum > MaxHours2)
+				{
+					MaxHours3 = MaxHours2;
+					index6 = index5;
+					MaxHours2 = sum;
+					index5 = i;
+				}
+				else if (sum > MaxHours3)
+				{
+					MaxHours3 = sum;
+					index6 = i;
 				}
 			}
-			if (sum >= MaxHours1)
-				MaxHours1 = sum;
-			else if (sum >= MaxHours2 && sum < MaxHours1)
-				MaxHours2 = sum;
-			else if (sum >= MaxHours3 && sum < MaxHours2 && sum < MaxHours1)
-				MaxHours3 = sum;
 		}
+		cout << "    Total Minutes    " << endl;
+		cout << "~~~~~~~~~~~~~~~~~" << endl;
+		cout << "1." << c4[index4].employee << " Minutes:" << MaxHours1 << endl;
+		cout << "2." << c4[index5].employee << " Minutes:" << MaxHours2 << endl;
+		cout << "3." << c4[index6].employee << " Minutes:" << MaxHours3 << endl;
+		break;
+	}
+	case 2:
+	{
+		for (int i = 0; i < SIZE; i++)
+		{
+			if (c2[i].id != 0)
+			{
+				if (c2[i].seniority > mostSenior1)
+				{
+					mostSenior3 = mostSenior2;
+					index3 = index2;
+					mostSenior2 = mostSenior1;
+					index2 = index1;
+					mostSenior1 = c2[i].seniority;
+					index1 = i;
+
+				}
+				else if (c2[i].seniority > mostSenior2)
+				{
+					mostSenior3 = mostSenior2;
+					index3 = index2;
+					mostSenior2 = c2[i].seniority;
+					index2 = i;
+
+				}
+				else if (c2[i].seniority > mostSenior3)
+				{
+					mostSenior3 = c2[i].seniority;
+					index3 = i;
+				}
+			}
+		}
+		cout << "    Seniority    " << endl;
+		cout << "~~~~~~~~~~~~~~~~~" << endl;
+		cout << "1 - " << c2[index1].Firstname << "    seniority: " << c2[index1].seniority << endl;
+		cout << "2 - " << c2[index2].Firstname << "    seniority: " << c2[index2].seniority << endl;
+		cout << "3 - " << c2[index3].Firstname << "    seniority: " << c2[index3].seniority << endl;
+		break;
+	}
+	case 3:
+	{
+		for (int i = 0; i < SIZE; i++)
+		{
+			for (int j = 0; j < SIZE; j++)
+			{
+				if (strcmp(c5[i].city, c2[j].City) == 0)
+					c5[i].counter++;
+				else
+					strcpy(c5[i].city, c2[j].City);
+			}
+		}
+		for (int i = 0; i < SIZE; i++)
+		{
+			if (c5[i].counter > countCity1)
+			{
+				countCity3 = countCity2;
+				countCity2 = countCity1;
+				countCity1 = c5[i].counter;
+				cityIndex1 = i;
+			}
+			else if (c5[i].counter > countCity2)
+			{
+				countCity3 = countCity2;
+				countCity2 = c5[i].counter;
+				cityIndex2 = i;
+
+			}
+			else if (c5[i].counter > countCity3)
+			{
+				countCity3 = c5[i].counter;
+				cityIndex3 = i;
+			}
+		}
+		cout << "    Cities    " << endl;
+		cout << "~~~~~~~~~~~~~~~~~" << endl;
+		cout << "1 - " << c5[cityIndex1].city << endl;
+		cout << "2 - " << c5[cityIndex2].city << endl;
+		cout << "3 - " << c5[cityIndex3].city << endl;
+		break;
+	}
+	default:
+		break;
 	}
 }
 void FindContractors(Contractor* c2)
@@ -1396,46 +1513,16 @@ void FindContractors(Contractor* c2)
 			cout << endl;
 			cout << "    What do you want to change?    " << endl;
 			cout << "-----------------------------------" << endl;
-			cout << "1. change first name" << endl;
-			cout << "2. change last name" << endl;
-			cout << "3. change pay by hour" << endl;
-			cout << "4. change city" << endl;
-			cout << "5. change adress" << endl;
-			cout << "6. change phone number" << endl;
-			cout << "7. change profession" << endl;
-			cout << "8. change seniority" << endl;
+			cout << "1. change pay by hour" << endl;
+			cout << "2. change city" << endl;
+			cout << "3. change adress" << endl;
+			cout << "4. change phone number" << endl;
+			cout << "5. change profession" << endl;
+			cout << "6. change seniority" << endl;
 			cin >> changePick;
 			switch (changePick)
 			{
 			case 1:
-				for (int i = 0; i < SIZE; i++)
-				{
-					if (contractorID == c2[i].id)
-					{
-						cout << "what's his/her first name?:";
-						cin >> c2[i].Firstname;
-						count++;
-					}
-				}
-				if (count == 0)
-					cout << "There Was No Contractor with ID:" << contractorID << " Found." << endl;
-				changeChoice = 2;
-				break;
-			case 2:
-				for (int i = 0; i < SIZE; i++)
-				{
-					if (contractorID == c2[i].id)
-					{
-						cout << "what's his/hers last name?:";
-						cin >> c2[i].Lastname;
-						count++;
-					}
-				}
-				if (count == 0)
-					cout << "There Was No Contractor with ID:" << contractorID << " Found." << endl;
-				changeChoice = 2;
-				break;
-			case 3:
 				for (int i = 0; i < SIZE; i++)
 				{
 					if (contractorID == c2[i].id)
@@ -1449,7 +1536,7 @@ void FindContractors(Contractor* c2)
 					cout << "There Was No Contractor with ID:" << contractorID << " Found." << endl;
 				changeChoice = 2;
 				break;
-			case 4:
+			case 2:
 				for (int i = 0; i < SIZE; i++)
 				{
 					if (contractorID == c2[i].id)
@@ -1463,7 +1550,7 @@ void FindContractors(Contractor* c2)
 					cout << "There Was No Contractor with ID:" << contractorID << " Found." << endl;
 				changeChoice = 2;
 				break;
-			case 5:
+			case 3:
 				for (int i = 0; i < SIZE; i++)
 				{
 					if (contractorID == c2[i].id)
@@ -1477,7 +1564,7 @@ void FindContractors(Contractor* c2)
 					cout << "There Was No Contractor with ID:" << contractorID << " Found." << endl;
 				changeChoice = 2;
 				break;
-			case 6:
+			case 4:
 				for (int i = 0; i < SIZE; i++)
 				{
 					if (contractorID == c2[i].id)
@@ -1491,7 +1578,7 @@ void FindContractors(Contractor* c2)
 					cout << "There Was No Contractor with ID:" << contractorID << " Found." << endl;
 				changeChoice = 2;
 				break;
-			case 7:
+			case 5:
 				for (int i = 0; i < SIZE; i++)
 				{
 					if (contractorID == c2[i].id)
@@ -1505,7 +1592,7 @@ void FindContractors(Contractor* c2)
 					cout << "There Was No Contractor with ID:" << contractorID << " Found." << endl;
 				changeChoice = 2;
 				break;
-			case 8:
+			case 6:
 				for (int i = 0; i < SIZE; i++)
 				{
 					if (contractorID == c2[i].id)
