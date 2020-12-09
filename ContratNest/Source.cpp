@@ -143,9 +143,10 @@ bool SameHourlyPay(Contractor* c2, float pay_hour, int index);
 bool CheckAttendanceClock(Contractor* c2, int In_Out, int index);
 void StatisticsAnalysis(Contractor* c2, Job* c4, CityCheck* c5);
 bool CheckName(Contractor* c2, char name[], int index);
+void print();
 int main()
 {
-	int i = 0, choise = 0, count = 0;
+	print();
 	CompanyEmployee c1[SIZE] = { 0 };
 	Contractor c2[SIZE] = { 0 };
 	ExternalEmployee c3[SIZE] = { 0 };
@@ -155,6 +156,18 @@ int main()
 	First_Menu(c1, c2, c3, c4,c5);
 	WriteToFile(c1, c2, c3, c4);
 	return 0;
+}
+void print()
+{
+	cout << PINK << "  HHHHHH  " << MAGENTA << "   HHHHH  " << YELLOW << "  HH    H" << GREEN << " HHHHHHH" << RED << " HHHHHHH   " << BLUE << "      HH    " << WHITE << "  HHHHHH  " << PINK << " HHHHHHHHH   " << MAGENTA << "  HH    H" << YELLOW << "  HHHHHHHH" << GREEN << "   HHH " << RED << " HHHHHHH" << endl;
+	cout << PINK << " H      HH" << MAGENTA << "  H     H " << YELLOW << "  H H   H" << GREEN << "    H   " << RED << " H      H  " << BLUE << "     H  H   " << WHITE << " H      HH" << PINK << "     H       " << MAGENTA << "  H H   H" << YELLOW << "  H       " << GREEN << "  H    " << RED << "    H   " << endl;
+	cout << PINK << "H         " << MAGENTA << " H       H" << YELLOW << "  H  H  H" << GREEN << "    H   " << RED << " HHHHHHH   " << BLUE << "    HHHHHH  " << WHITE << "H         " << PINK << "     H    HHH" << MAGENTA << "  H  H  H" << YELLOW << "  H       " << GREEN << "   HHH " << RED << "    H   " << endl;
+	cout << PINK << "H         " << MAGENTA << " H       H" << YELLOW << "  H   H H" << GREEN << "    H   " << RED << " H      H  " << BLUE << "   H      H " << WHITE << "H         " << PINK << "     H    HHH" << MAGENTA << "  H   H H" << YELLOW << "  HHHHHHHH" << GREEN << "      H" << RED << "    H   " << endl;
+	cout << PINK << " H      HH" << MAGENTA << "  H     H " << YELLOW << "  H    HH" << GREEN << "    H   " << RED << " H       H " << BLUE << "  H        H" << WHITE << " H      HH" << PINK << "     H       " << MAGENTA << "  H    HH" << YELLOW << "  H       " << GREEN << "      H" << RED << "    H   " << endl;
+	cout << PINK << "  HHHHHH  " << MAGENTA << "   HHHHH  " << YELLOW << "  H    HH" << GREEN << "    H   " << RED << " H        H" << BLUE << "  H        H" << WHITE << "  HHHHHH  " << PINK << "     H       " << MAGENTA << "  H    HH" << YELLOW << "  HHHHHHHH" << GREEN << "  HHHH " << RED << "    H   " << endl;
+
+	cout << BLOCKCOLOR << "                                                                                                                                                                                                                                                " << WHITE << endl;
+	cout  << "\nBy Group 5" << endl <<endl;
 }
 void First_Menu(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job* c4, CityCheck* c5)
 {
@@ -188,31 +201,34 @@ void First_Menu(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job* 
 }
 void ContractorMenu(Contractor* c, Job* c4, int index)
 {
-	int choise;
-	cout << endl;
-	cout << "               Contractor Menu               " << endl;
-	cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
-	cout << "1 - Report Hours" << endl << "2 - Salary calculation" << endl << "3 - Vacation report" << endl << "4 - Work history" << endl << "5 - Exit." << endl;
-	cin >> choise;
-	switch (choise)
+	int choise=0;
+	while (choise != 5)
 	{
-	case 1:
-		Report_Hours(c, c4, index);
-		break;
-	case 2:
-		Salary_Calculation(c, c4, index);
-		break;
-	case 3:
-		VacationRequest(c, index);
-		break;
-	case 4:
-		ContractorWorkHistory(c, index);
-		break;
-	case 5:
-		cout << "Bye Bye." << endl;
-		break;
-	default:
-		break;
+		cout << endl;
+		cout << "               Contractor Menu               " << endl;
+		cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
+		cout << "1 - Report Hours" << endl << "2 - Salary calculation" << endl << "3 - Vacation report" << endl << "4 - Work history" << endl << "5 - Exit." << endl;
+		cin >> choise;
+		switch (choise)
+		{
+		case 1:
+			Report_Hours(c, c4, index);
+			break;
+		case 2:
+			Salary_Calculation(c, c4, index);
+			break;
+		case 3:
+			VacationRequest(c, index);
+			break;
+		case 4:
+			ContractorWorkHistory(c, index);
+			break;
+		case 5:
+			cout << "Bye Bye." << endl;
+			break;
+		default:
+			break;
+		}
 	}
 }
 void ReadFromFile(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job* c4)
@@ -708,51 +724,57 @@ void Register(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job* c4
 }
 void ExternalEmployeeMenu(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job* c4, int index)
 {
-	int choise;
-	cout << endl;
-	cout << "               External Employee Menu               " << endl;
-	cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
-	cout << "1 - Search" << endl << "2 - History" << endl << "3 - Exit" << endl;
-	cin >> choise;
-	switch (choise)
+	int choise = 0;
+	while (choise != 3)
 	{
-	case 1:
-		Search(c2, c3, c4, index);
-		break;
-	case 2:
-		workHistory(c3, c4, index);
-		break;
-	case 3:
-		cout << "Bye Bye." << endl;
-		break;
-	default:
-		break;
+		cout << endl;
+		cout << "               External Employee Menu               " << endl;
+		cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
+		cout << "1 - Search" << endl << "2 - History" << endl << "3 - Exit" << endl;
+		cin >> choise;
+		switch (choise)
+		{
+		case 1:
+			Search(c2, c3, c4, index);
+			break;
+		case 2:
+			workHistory(c3, c4, index);
+			break;
+		case 3:
+			cout << "Bye Bye." << endl;
+			break;
+		default:
+			break;
+		}
 	}
 }
 void CompanyEmployeeMenu(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job* c4, CityCheck* c5, int index)
 {
-	int choise;
-	cout << endl;
-	cout << "               Company Employee Menu               " << endl;
-	cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
-	cout << "1 - Add Contractor" << endl << "2 - Statistic Analysis" << endl << "3 - Contractor Inforomation" << endl << "4 - Exit." << endl;
-	cin >> choise;
-	switch (choise)
+	int choise=0;
+	while (choise != 4)
 	{
-	case 1:
-		addNewContractor(c1, c2, c3);
-		break;
-	case 2:
-		StatisticsAnalysis(c2, c4, c5);
-		break;
-	case 3:
-		FindContractors(c2);
-		break;
-	case 4:
-		cout << "Bye Bye." << endl;
-		break;
-	default:
-		break;
+		cout << endl;
+		cout << "               Company Employee Menu               " << endl;
+		cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
+		cout << "1 - Add Contractor" << endl << "2 - Statistic Analysis" << endl << "3 - Contractor Inforomation" << endl << "4 - Exit." << endl;
+		cin >> choise;
+		switch (choise)
+		{
+		case 1:
+			addNewContractor(c1, c2, c3);
+			break;
+		case 2:
+			StatisticsAnalysis(c2, c4, c5);
+			break;
+		case 3:
+			FindContractors(c2);
+			break;
+		case 4:
+			cout << "Bye Bye." << endl;
+			break;
+		default:
+			break;
+		}
 	}
 }
 bool Exist_Contractor_Username(Contractor* c, char username[])
@@ -1221,7 +1243,7 @@ void printContractor(Contractor c2)
 }
 void StatisticsAnalysis(Contractor* c2, Job* c4, CityCheck* c5)
 {
-	int menu = 0;
+	int menu = 0, max1 = 0, max2 = 0, max3 = 0;
 	int index1=0, index2=0, index3=0;
 	int index4=0, index5=0, index6=0;
 	int mostSenior1 = 0, mostSenior2 = 0, mostSenior3 = 0;
@@ -1231,7 +1253,6 @@ void StatisticsAnalysis(Contractor* c2, Job* c4, CityCheck* c5)
 	int sum = 0;
 	int countCity1 = 0, countCity2 = 0, countCity3 = 0;
 	int cityIndex1 = 0, cityIndex2 = 0, cityIndex3 = 0;
-	char mostCity[SIZE];
 	cout << "### Statistics Analysis ###" << endl;
 	cout << "Enter given number to enter category" << endl << "1 - Contractors with most hours" << endl << "2 - Contractors with most seniority" << endl << "3 - Most popular city among the contractors" << endl;
 	cin >> menu;
@@ -1335,41 +1356,45 @@ void StatisticsAnalysis(Contractor* c2, Job* c4, CityCheck* c5)
 	{
 		for (int i = 0; i < SIZE; i++)
 		{
-			for (int j = 0; j < SIZE; j++)
+			if (c2[i].id != 0)
 			{
-				if (strcmp(c5[i].city, c2[j].City) == 0)
-					c5[i].counter++;
-				else
-					strcpy(c5[i].city, c2[j].City);
-			}
-		}
-		for (int i = 0; i < SIZE; i++)
-		{
-			if (c5[i].counter > countCity1)
-			{
-				countCity3 = countCity2;
-				countCity2 = countCity1;
-				countCity1 = c5[i].counter;
-				cityIndex1 = i;
-			}
-			else if (c5[i].counter > countCity2)
-			{
-				countCity3 = countCity2;
-				countCity2 = c5[i].counter;
-				cityIndex2 = i;
-
-			}
-			else if (c5[i].counter > countCity3)
-			{
-				countCity3 = c5[i].counter;
-				cityIndex3 = i;
+				for (int j = 0; j < SIZE; j++)
+				{
+					if (strlen(c5[j].city)==0)
+					{
+						strcpy(c5[j].city, c2[i].City);
+						c5[j].counter++;
+						break;
+					}
+				}
+				if (c5[i].counter > max1)
+				{
+					max3 = max2;
+					cityIndex3 = cityIndex2;
+					max2 = max1;
+					cityIndex2 = cityIndex1;
+					max1 = c5[i].counter;
+					cityIndex1 = i;
+				}
+				else if (c5[i].counter > max2)
+				{
+					max3 = max2;
+					cityIndex3 = cityIndex2;
+					max2 = c5[i].counter;
+					cityIndex2 = i;
+				}
+				else if (c5[i].counter > max3)
+				{
+					max3 = c5[i].counter;
+					cityIndex3 = i;
+				}
 			}
 		}
 		cout << "    Cities    " << endl;
 		cout << "~~~~~~~~~~~~~~~~~" << endl;
-		cout << "1 - " << c5[cityIndex1].city << endl;
-		cout << "2 - " << c5[cityIndex2].city << endl;
-		cout << "3 - " << c5[cityIndex3].city << endl;
+		cout << "1 - " << c2[cityIndex1].City << " " << c5[cityIndex1].counter << endl;
+		cout << "2 - " << c2[cityIndex2].City << " " << c5[cityIndex2].counter << endl;
+		cout << "3 - " << c2[cityIndex3].City << " " << c5[cityIndex3].counter << endl;
 		break;
 	}
 	default:
