@@ -120,6 +120,8 @@ void Search(Contractor* c2, ExternalEmployee* c3, Job* c4 , int index1);
 void Book(Booking b, Contractor* c2, ExternalEmployee* c3, Job* c4, int index1, int index2);
 void VacationRequest(Contractor* c2, int index);
 bool Date_Vaild(Contractor* c2, int day, int month, int year, int index);
+void workHistory(ExternalEmployee* c3, Job* c4, int index);
+void printJob(Job c4);
 
 int main()
 {
@@ -697,6 +699,7 @@ void ExternalEmployeeMenu(CompanyEmployee* c1, Contractor* c2, ExternalEmployee*
 		Search(c2, c3, c4, index);
 		break;
 	case 2:
+		workHistory(c3, c4, index);
 		break;
 	case 3:
 		cout << "Bye Bye." << endl;
@@ -1111,4 +1114,30 @@ bool Date_Vaild(Contractor* c2, int day, int month, int year, int index)
 			return false;
 	}
 	return true;
+}
+void workHistory(ExternalEmployee* c3, Job* c4, int index) {
+	int position = 1;
+	for (int i = 0; i < SIZE; i++)
+	{
+		if (c4[i].External_id == c3[index].id)
+		{
+			cout << endl;
+			cout << "Job Number " << position << endl;
+			cout << "~~~~~~~~~~~~" << endl;
+			printJob(c4[i]);
+			position++;
+		}
+	}
+}
+void printJob(Job c4) 
+{
+	cout << "Date worked: " << c4.day << "." << c4.month << "." << c4.year << endl;
+	cout << "Starting hour for hiring: " << c4.S_Hour << ":" << c4.S_Min << endl;
+	cout << "Finishing hour for hiring: " << c4.F_Hour << ":" << c4.F_Min << endl;
+	cout << "Salary per hour: " << c4.Hour_Salary << endl;
+	cout << "employer is: " << c4.employer << endl;
+	cout << "employee is: " << c4.employee << endl;
+	cout << "The external employee's Id: " << c4.External_id << endl;
+	cout << "The contractor's ID: " << c4.Contractor_id << endl;
+	cout << "The amount of extra hours: " << c4.premium_hours << ":" << c4.premium_mins << endl;
 }
