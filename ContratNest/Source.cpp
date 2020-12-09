@@ -16,20 +16,20 @@
 #include <fstream>
 using namespace std;
 
-typedef struct
+typedef struct//A struct to help working with cities//
 {
 	char city[LENGTH];
 	int counter;
 } CityCheck;
 
-typedef struct
+typedef struct//Helps with checking the availabilities of workers//
 {
 	int day[SIZE2] = { 0 };
 	int month[SIZE2] = { 0 };
 	int year[SIZE2] = { 0 };
 } Availabilty;
 
-typedef struct
+typedef struct//Organizes the booking procedure with a struct//
 {
 	int seniority;
 	int day;
@@ -40,7 +40,7 @@ typedef struct
 	char Profession[LENGTH];
 } Booking;
 
-typedef struct
+typedef struct//A struct to help with accessing job deals//
 {
 	char ch;
 	int day;
@@ -59,7 +59,7 @@ typedef struct
 	int premium_mins;
 } Job;
 
-typedef struct
+typedef struct//Handling the company employee with a struct//
 {
 	char username[LENGTH];
 	char password[LENGTH];
@@ -72,7 +72,7 @@ typedef struct
 	int Phone_Number;
 } CompanyEmployee;
 
-typedef struct
+typedef struct// Handling the external employee with a struct//
 {
 	char username[LENGTH];
 	char password[LENGTH];
@@ -85,7 +85,7 @@ typedef struct
 	int Phone_Number;
 } ExternalEmployee;
 
-typedef struct
+typedef struct//Organizing the contractos with a struct//
 {
 	char ch;
 	char username[LENGTH];
@@ -103,50 +103,50 @@ typedef struct
 	Availabilty a;
 } Contractor;
 
-bool Exist_Contractor_ID(Contractor* c, int id);
-bool Exist_Company_ID(CompanyEmployee* c, int id);
-bool Exist_External_ID(ExternalEmployee* c, int id);
-bool Exist_ID(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, int id);
-void ReadFromFile(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job* c4);
-void WriteToFile(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job* c4);
-void ContractorMenu(Contractor* c, Job* c4, int index);
-void CompanyEmployeeMenu(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job* c4, CityCheck* c5, int index);
-void ExternalEmployeeMenu(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job* c4, int index);
-void First_Menu(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job* c4, CityCheck* c5);
+bool Exist_Contractor_ID(Contractor* c, int id);//Checks if Exist Id In Contractor Database
+bool Exist_Company_ID(CompanyEmployee* c, int id);//Checks if Exist id in Company Database
+bool Exist_External_ID(ExternalEmployee* c, int id);//Checks if Exist id in External Database
+bool Exist_ID(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, int id);//Checks if Exist id in any Database
+void ReadFromFile(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job* c4);//read all infromation from all databases
+void WriteToFile(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job* c4);//write all to all the databases files
+void ContractorMenu(Contractor* c, Job* c4, int index);//contractor menu
+void CompanyEmployeeMenu(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job* c4, CityCheck* c5, int index);//companyemployee menu
+void ExternalEmployeeMenu(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job* c4, int index);//External Employee menu
+void First_Menu(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job* c4, CityCheck* c5);//Main Menu
 void addNewContractor(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3);
-void login_CE(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job* c4, CityCheck* c5);
-void login_C(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job* c4);
-void login_EE(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job* c4);
+void login_CE(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job* c4, CityCheck* c5);//Login Company employee
+void login_C(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job* c4);//Login Contractor
+void login_EE(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job* c4);//Login External Employee
 void Register(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job* c4);
-bool Exist_Contractor_Username(Contractor* c, char username[]);
-bool Exist_Company_Username(CompanyEmployee* c, char username[]);
-bool Exist_External_Username(ExternalEmployee* c, char username[]);
-bool Exist_Username(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, char username[]);
-bool Valid_Name(char name[]);
+bool Exist_Contractor_Username(Contractor* c, char username[]);//Checks if username Exist  In Contractor Database
+bool Exist_Company_Username(CompanyEmployee* c, char username[]);//Checks if username Exist  In company emplyee Database
+bool Exist_External_Username(ExternalEmployee* c, char username[]);//Checks if username Exist  In external employee Database
+bool Exist_Username(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, char username[]);//Checks if  username Exist in any Database
+bool Valid_Name(char name[]);//Vaild name
 void Salary_Calculation(Contractor* c2, Job* c4, int index);
 void Report_Hours(Contractor* c2, Job* c4, int index);
-bool CheckAvibillity(Contractor* c2, int day, int month, int year, int index);
-bool Checkprofession(Contractor* c2, char profession[], int index);
-bool CheckPlace(Contractor* c2, char city[], int index);
-bool Checkpay(Contractor* c2, float pay_hour, int index);
-bool CheckVetek(Contractor* c2, int vetek2, int index);
-void Search(Contractor* c2, ExternalEmployee* c3, Job* c4, int index1);
-void Book(Booking b, Contractor* c2, ExternalEmployee* c3, Job* c4, int index1, int index2);
+bool CheckAvibillity(Contractor* c2, int day, int month, int year, int index);//If the contractor can work in those days
+bool Checkprofession(Contractor* c2, char profession[], int index);//check if the profession match
+bool CheckPlace(Contractor* c2, char city[], int index);//check if the city match
+bool Checkpay(Contractor* c2, float pay_hour, int index);//check if the hourly pay match
+bool CheckVetek(Contractor* c2, int vetek2, int index);//check if the seniority match
+void Search(Contractor* c2, ExternalEmployee* c3, Job* c4, int index1);//Serch for a contractor
+void Book(Booking b, Contractor* c2, ExternalEmployee* c3, Job* c4, int index1, int index2);//book a contractor
 void VacationRequest(Contractor* c2, int index);
-bool Date_Vaild(Contractor* c2, int day, int month, int year, int index);
-void workHistory(ExternalEmployee* c3, Job* c4, int index);
-void printJob(Job c4);
+bool Date_Vaild(Contractor* c2, int day, int month, int year, int index);//checks if the date is already taken or not
+void workHistory(ExternalEmployee* c3, Job* c4, int index);//work history of the external employee
+void printJob(Job c4);//print some job
 void ContractorWorkHistory(Contractor* c2, int index);
 void printContractor(Contractor c2);
-void FindContractors(Contractor* c2);
+void contractorinfromation(Contractor* c2);
 bool SameHourlyPay(Contractor* c2, float pay_hour, int index);
 bool CheckAttendanceClock(Contractor* c2, int In_Out, int index);
 void StatisticsAnalysis(Contractor* c2, Job* c4, CityCheck* c5);
-bool CheckName(Contractor* c2, char name[], int index);
+bool CheckName(Contractor* c2, char name[], int index);//checks if the name is the same
 void print();
 int main()
 {
-	print();
+	print();//print logo
 	CompanyEmployee c1[SIZE] = { 0 };
 	Contractor c2[SIZE] = { 0 };
 	ExternalEmployee c3[SIZE] = { 0 };
@@ -176,7 +176,7 @@ void First_Menu(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job* 
 	cout << "-----------------------------------------" << endl;
 	cout << "1.Company Employee" << endl << "2.Contractor" << endl << "3.External employee" << endl << "4.Exit" << endl;
 	cin >> choice;
-	switch (choice)
+	switch (choice)//choose type of employee
 	{
 	case 1:
 		login_CE(c1, c2, c3, c4,c5);
@@ -209,7 +209,7 @@ void ContractorMenu(Contractor* c, Job* c4, int index)
 		cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
 		cout << "1 - Report Hours" << endl << "2 - Salary calculation" << endl << "3 - Vacation report" << endl << "4 - Work history" << endl << "5 - Exit." << endl;
 		cin >> choise;
-		switch (choise)
+		switch (choise)//choose action you want to do 
 		{
 		case 1:
 			Report_Hours(c, c4, index);
@@ -237,7 +237,7 @@ void ReadFromFile(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job
 	string c = " ";
 	ifstream C_In1;
 	C_In1.open("CompanyEmployees.txt");
-	for (i = 0; i < SIZE; i++)
+	for (i = 0; i < SIZE; i++)//read all data of the company employeee
 	{
 		C_In1 >> c1[i].ch;
 		C_In1 >> c1[i].username;
@@ -252,7 +252,7 @@ void ReadFromFile(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job
 	C_In1.close();
 
 	ifstream C_In2;
-	C_In2.open("ContractorWorkers.txt");
+	C_In2.open("ContractorWorkers.txt");//read all data of the contractor
 	for (i = 0; i < SIZE; i++)
 	{
 		C_In2 >> c2[i].ch;
@@ -284,7 +284,7 @@ void ReadFromFile(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job
 	C_In2.close();
 
 	ifstream C_In3;
-	C_In3.open("ExternalEmployees.txt");
+	C_In3.open("ExternalEmployees.txt");//read all data of the external employeee
 	for (i = 0; i < SIZE; i++)
 	{
 		C_In3 >> c3[i].ch;
@@ -300,7 +300,7 @@ void ReadFromFile(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job
 	C_In3.close();
 
 	ifstream C_In4;
-	C_In4.open("Booking Database.txt");
+	C_In4.open("Booking Database.txt");//read all data of the booking database
 	for (i = 0; i < SIZE; i++)
 	{
 		C_In4 >> c4[i].ch;
@@ -326,7 +326,7 @@ void WriteToFile(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job*
 	int i = 0;
 	string c = " ";
 	ofstream C_Out1;
-	C_Out1.open("CompanyEmployees.txt");
+	C_Out1.open("CompanyEmployees.txt");//write data to the company employee database
 	for (i = 0; i < SIZE; i++)
 	{
 		if (c1[i].ch == 0)
@@ -347,7 +347,7 @@ void WriteToFile(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job*
 	C_Out1.close();//close file
 
 	ofstream C_Out2;
-	C_Out2.open("ContractorWorkers.txt");
+	C_Out2.open("ContractorWorkers.txt");//write data to the contractor database
 	for (i = 0; i < SIZE; i++)
 	{
 		if (c2[i].ch == 0)
@@ -367,17 +367,17 @@ void WriteToFile(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job*
 			C_Out2 << c2[i].profession << endl;
 			C_Out2 << c2[i].seniority << endl;
 			C_Out2 << c2[i].CheckInOut << endl;
-			for (int j = 0; j < SIZE2; j++)
+			for (int j = 0; j < SIZE2; j++)//arr of vaction\job days
 			{
 				C_Out2 << c2[i].a.day[j];
 				C_Out2 << endl;
 			}
-			for (int j = 0; j < SIZE2; j++)
+			for (int j = 0; j < SIZE2; j++)//arr of vaction\job months
 			{
 				C_Out2 << c2[i].a.month[j];
 				C_Out2 << endl;
 			}
-			for (int j = 0; j < SIZE2; j++)
+			for (int j = 0; j < SIZE2; j++)//arr of vaction\job years
 			{
 				C_Out2 << c2[i].a.year[j];
 				C_Out2 << endl;
@@ -387,7 +387,7 @@ void WriteToFile(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job*
 	C_Out2.close();//close file
 
 	ofstream C_Out3;
-	C_Out3.open("ExternalEmployees.txt");
+	C_Out3.open("ExternalEmployees.txt");//write data to the external employee database
 	for (i = 0; i < SIZE; i++)
 	{
 		if (c3[i].ch == 0)
@@ -409,7 +409,7 @@ void WriteToFile(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job*
 	C_Out3.close();//close file
 
 	ofstream C_Out4;
-	C_Out4.open("Booking Database.txt");
+	C_Out4.open("Booking Database.txt");//write data to the booking database
 	for (i = 0; i < SIZE; i++)
 	{
 		if (c4[i].ch == 0)
@@ -767,7 +767,7 @@ void CompanyEmployeeMenu(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* 
 			StatisticsAnalysis(c2, c4, c5);
 			break;
 		case 3:
-			FindContractors(c2);
+			contractorinfromation(c2);
 			break;
 		case 4:
 			cout << "Bye Bye." << endl;
@@ -777,7 +777,7 @@ void CompanyEmployeeMenu(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* 
 		}
 	}
 }
-bool Exist_Contractor_Username(Contractor* c, char username[])
+bool Exist_Contractor_Username(Contractor* c, char username[]) //func that check's if the constactor username already exist in the contractor arr
 {
 	int count = 0;
 	for (int i = 0; i < SIZE; i++)
@@ -790,7 +790,7 @@ bool Exist_Contractor_Username(Contractor* c, char username[])
 	else
 		return true;
 }
-bool Exist_Company_Username(CompanyEmployee* c, char username[])
+bool Exist_Company_Username(CompanyEmployee* c, char username[]) //func that check's if the employee username already exist in the contractor arr
 {
 	int count = 0;
 	for (int i = 0; i < SIZE; i++)
@@ -803,43 +803,43 @@ bool Exist_Company_Username(CompanyEmployee* c, char username[])
 	else
 		return true;
 }
-bool Exist_External_Username(ExternalEmployee* c, char username[])
+bool Exist_External_Username(ExternalEmployee* c, char username[]) //func that check's if the external emplooye username already exist in the contractor arr
 {
 	int count = 0;
 	for (int i = 0; i < SIZE; i++)
 	{
-		if (strcmp(username, c[i].username) == 0)
+		if (strcmp(username, c[i].username) == 0) //compares between the username from index i in the arr between the username that the func got
 			count++;
 	}
-	if (count == 0)
+	if (count == 0)                              //condition
 		return false;
 	else
 		return true;
 }
-bool Exist_Username(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, char username[])
+bool Exist_Username(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, char username[]) //func that check's if the username exist
 {
-	if ((Exist_External_Username(c3, username) == false) && (Exist_Contractor_Username(c2, username) == false) && (Exist_Company_Username(c1, username) == false))
+	if ((Exist_External_Username(c3, username) == false) && (Exist_Contractor_Username(c2, username) == false) && (Exist_Company_Username(c1, username) == false))  //condition that chacks if the username exist
 		return false;
 	else
 		return true;
 }
-bool Valid_Name(char name[])
+bool Valid_Name(char name[]) //func that check's if the name is ligal to use
 {
 	for (int i = 0; i < strlen(name); i++)
 	{
-		if (name[0] > 'Z' || name[0] < 'A')
+		if (name[0] > 'Z' || name[0] < 'A')   //condition if there are chars from the ABC
 			return false;
-		if ((name[i] > 'z' || name[i] < 'a') && i != 0)
+		if ((name[i] > 'z' || name[i] < 'a') && i != 0)   //condition if there are chars from the ABC little latters
 			return false;
 	}
 	return true;
 }
-bool Exist_Contractor_ID(Contractor* c, int id)
+bool Exist_Contractor_ID(Contractor* c, int id) //func that check's if the contractor ID exist in the contarctor arr
 {
 	int count = 0;
-	for (int i = 0; i < SIZE; i++)
+	for (int i = 0; i < SIZE; i++)  //for loop
 	{
-		if (id == c[i].id)
+		if (id == c[i].id)    //condition checks if the id in the arr and the id from the input are the same
 			count++;
 	}
 	if (count == 0)
@@ -847,40 +847,40 @@ bool Exist_Contractor_ID(Contractor* c, int id)
 	else
 		return true;
 }
-bool Exist_Company_ID(CompanyEmployee* c, int id)
+bool Exist_Company_ID(CompanyEmployee* c, int id) //func that check's if the company employee's ID exist in the arr
 {
 	int count = 0;
 	for (int i = 0; i < SIZE; i++)
 	{
-		if (id == c[i].id)
-			count++;
+		if (id == c[i].id)    //condition checks if the id in the arr and the id from the input are the same
+			count++;          //add count +1
+	}
+	if (count == 0)         //condition
+		return false;
+	else
+		return true;
+}
+bool Exist_External_ID(ExternalEmployee* c, int id)  //func that check's if the contractor ID exist in the contarctor arr
+{
+	int count = 0;
+	for (int i = 0; i < SIZE; i++)
+	{
+		if (id == c[i].id) //condition checks if the id in the arr and the id from the input are the same
+			count++;   //counter +1
 	}
 	if (count == 0)
 		return false;
 	else
 		return true;
 }
-bool Exist_External_ID(ExternalEmployee* c, int id)
+bool Exist_ID(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, int id)  //func that check's if the ID exist
 {
-	int count = 0;
-	for (int i = 0; i < SIZE; i++)
-	{
-		if (id == c[i].id)
-			count++;
-	}
-	if (count == 0)
+	if ((Exist_External_ID(c3, id) == false) && (Exist_Contractor_ID(c2, id) == false) && (Exist_Company_ID(c1, id) == false))  //condition checks if the id exist
 		return false;
 	else
 		return true;
 }
-bool Exist_ID(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, int id)
-{
-	if ((Exist_External_ID(c3, id) == false) && (Exist_Contractor_ID(c2, id) == false) && (Exist_Company_ID(c1, id) == false))
-		return false;
-	else
-		return true;
-}
-void Salary_Calculation(Contractor* c2, Job* c4, int index)
+void Salary_Calculation(Contractor* c2, Job* c4, int index) //func that calculates the salary in specific month and year by his jobs
 {
 	int month;
 	int year;
@@ -896,15 +896,15 @@ void Salary_Calculation(Contractor* c2, Job* c4, int index)
 	cin >> month;
 	for (int i = 0; i < SIZE; i++)
 	{
-		if (c2[index].id == c4[i].Contractor_id)
+		if (c2[index].id == c4[i].Contractor_id)   //compares the id's 
 		{
-			if (c4[i].year == year)
+			if (c4[i].year == year)//compers the year's
 			{
-				if (c4[i].month == month)
+				if (c4[i].month == month) //compers the month's
 				{
 					count++;
 
-					if (c4[i].F_Min >= c4[i].S_Min)
+					if (c4[i].F_Min >= c4[i].S_Min)  //see's that the time is ok
 					{
 						HoursWorked = (c4[i].F_Hour - c4[i].S_Hour)*c4[i].Hour_Salary;
 						MinsWorked = ((c4[i].F_Min - c4[i].S_Min) / 60)*c4[i].Hour_Salary;
@@ -926,7 +926,7 @@ void Salary_Calculation(Contractor* c2, Job* c4, int index)
 	else
 		cout << "You didnt work in this month in this year" << endl;
 }
-void Report_Hours(Contractor* c2, Job* c4, int index)
+void Report_Hours(Contractor* c2, Job* c4, int index)       //func porpose to report hours worked  
 {
 	int day, month, year, count = 0;
 	int start_hour, start_min, finish_hour, finish_min, premium_hours, premium_mins;
@@ -938,17 +938,17 @@ void Report_Hours(Contractor* c2, Job* c4, int index)
 	cin >> year;
 	for (int i = 0; i < SIZE; i++)
 	{
-		if (c2[index].id == c4[i].Contractor_id)
+		if (c2[index].id == c4[i].Contractor_id)    //sees that the id is correct
 		{
-			if (c4[i].year == year)
+			if (c4[i].year == year)                //sees that the year is correct
 			{
-				if (c4[i].month == month)
+				if (c4[i].month == month)            //sees that the month is correct
 				{
-					if (c4[i].day == day)
+					if (c4[i].day == day)             //sees that the day is correct
 					{
 						count++;
 						if (c2[index].CheckInOut == 0)
-						{
+						{                                 //prints/gets all the ditails
 							cout << "    Enter the shift    " << endl;
 							cout << "-----------------------" << endl;
 							cout << "Please enter the start hour to report:";
@@ -963,7 +963,7 @@ void Report_Hours(Contractor* c2, Job* c4, int index)
 						else
 						{
 							cout << "    Exit the shift    " << endl;
-							cout << "----------------------" << endl;
+							cout << "----------------------" << endl;             //gets all the ditails
 							cout << "Please enter the finish hour to report:";
 							cin >> finish_hour;
 							c4[i].F_Hour = finish_hour;
@@ -984,14 +984,14 @@ void Report_Hours(Contractor* c2, Job* c4, int index)
 			}
 		}
 	}
-	if (count != 0)
+	if (count != 0)       //saw there was day worked
 		cout << "Report Succceded." << endl;
-	else
+	else        //no worked day
 		cout << "You didnt work in this day in this month in this year" << endl;
 
 
 }
-bool CheckAvibillity(Contractor* c2, int day, int month, int year, int index)
+bool CheckAvibillity(Contractor* c2, int day, int month, int year, int index)   //check if the date is free
 {
 	for (int j = 0; j < SIZE2; j++)
 	{
@@ -1000,49 +1000,49 @@ bool CheckAvibillity(Contractor* c2, int day, int month, int year, int index)
 	}
 	return true;
 }
-bool Checkprofession(Contractor* c2, char profession[], int index)
+bool Checkprofession(Contractor* c2, char profession[], int index) //checks if the professions are the same
 {
-	if (strcmp(c2[index].profession, profession) == 0)
+	if (strcmp(c2[index].profession, profession) == 0)          //compers
 		return true;
 	return false;
 }
-bool CheckPlace(Contractor* c2, char city[], int index)
+bool CheckPlace(Contractor* c2, char city[], int index) //checks if the palces are the same
 {
-	if (strcmp(c2[index].City, city) == 0)
+	if (strcmp(c2[index].City, city) == 0) //compares
 		return true;
 	return false;
 }
-bool CheckName(Contractor* c2, char name[], int index)
+bool CheckName(Contractor* c2, char name[], int index)  //checks if the names are the same
 {
-	if (strcmp(c2[index].Firstname, name) == 0)
+	if (strcmp(c2[index].Firstname, name) == 0)   //compares
 		return true;
 	return false;
 }
-bool Checkpay(Contractor* c2, float pay_hour, int index)
+bool Checkpay(Contractor* c2, float pay_hour, int index) //checks if the payment fits the requrments
 {
-	if (c2[index].Hourly_Pay <= pay_hour)
+	if (c2[index].Hourly_Pay <= pay_hour)       //condition
 		return true;
 	return false;
 }
-bool SameHourlyPay(Contractor* c2, float pay_hour, int index)
+bool SameHourlyPay(Contractor* c2, float pay_hour, int index) //checks if the payment is the same
 {
-	if (c2[index].Hourly_Pay == pay_hour)
+	if (c2[index].Hourly_Pay == pay_hour)  //condition the pay is the same
 		return true;
 	return false;
 }
-bool CheckVetek(Contractor* c2, int vetek2, int index)
+bool CheckVetek(Contractor* c2, int vetek2, int index) //checks if the seniority fits the requrments
 {
-	if (c2[index].seniority >= vetek2)
+	if (c2[index].seniority >= vetek2)      //condition the seniority 
 		return true;
 	return false;
 }
-bool CheckAttendanceClock(Contractor* c2, int In_Out, int index)
+bool CheckAttendanceClock(Contractor* c2, int In_Out, int index)  //checks attandance clock
 {
-	if (c2[index].CheckInOut == In_Out)
+	if (c2[index].CheckInOut == In_Out)   //condition
 		return true;
 	return false;
 }
-void Search(Contractor* c2, ExternalEmployee* c3, Job* c4, int index1)
+void Search(Contractor* c2, ExternalEmployee* c3, Job* c4, int index1) //finds the right contractor by differnt categories 
 {
 	int day, month, year;
 	int count = 0;
@@ -1051,7 +1051,7 @@ void Search(Contractor* c2, ExternalEmployee* c3, Job* c4, int index1)
 	float pay_hour;
 	char city[LENGTH];
 	int vetek;
-	Booking b = { 0 };
+	Booking b = { 0 };        //booking arr
 	cout << "Here you can serch the contractor for you!" << endl;
 	cout << "------------------------------------------" << endl;
 	cout << "There are some categories for you" << endl;
@@ -1083,7 +1083,7 @@ void Search(Contractor* c2, ExternalEmployee* c3, Job* c4, int index1)
 			b.month = month;
 			b.year = year;
 			count++;
-			Book(b, c2, c3, c4, index1, i);
+			Book(b, c2, c3, c4, index1, i);         //func
 			break;
 		}
 	}
@@ -1094,12 +1094,12 @@ void Search(Contractor* c2, ExternalEmployee* c3, Job* c4, int index1)
 		cout << "------------------------------" << endl;
 	}
 }
-void Book(Booking b, Contractor* c2, ExternalEmployee* c3, Job* c4, int index1, int index2)
+void Book(Booking b, Contractor* c2, ExternalEmployee* c3, Job* c4, int index1, int index2) //func that books the contractor you want to hire
 {
 
-	for (int j = 0; j < SIZE2; j++)
+	for (int j = 0; j < SIZE2; j++)  //for loop
 	{
-		if (c2[index2].a.day[j] == 0 && c2[index2].a.month[j] == 0 && c2[index2].a.year[j] == 0)
+		if (c2[index2].a.day[j] == 0 && c2[index2].a.month[j] == 0 && c2[index2].a.year[j] == 0) //condition  sees that all date in index i is intialized
 		{
 			c2[index2].a.day[j] = b.day;
 			c2[index2].a.month[j] = b.month;
@@ -1107,9 +1107,9 @@ void Book(Booking b, Contractor* c2, ExternalEmployee* c3, Job* c4, int index1, 
 			break;
 		}
 	}
-	for (int i = 0; i < SIZE; i++)
+	for (int i = 0; i < SIZE; i++)     //forr loop
 	{
-		if (c4[i].ch == 0)
+		if (c4[i].ch == 0)   //input the ditails needed / placment
 		{
 			c4[i].ch = '*';
 			c4[i].day = b.day;
@@ -1124,8 +1124,8 @@ void Book(Booking b, Contractor* c2, ExternalEmployee* c3, Job* c4, int index1, 
 			cout << "Please enter finish min:";
 			cin >> c4[i].F_Min;
 			c4[i].Hour_Salary = b.Hour_Salary;
-			strcpy(c4[i].employer, c3[index1].Firstname);
-			strcpy(c4[i].employee, c2[index2].Firstname);
+			strcpy(c4[i].employer, c3[index1].Firstname);   //compares
+			strcpy(c4[i].employee, c2[index2].Firstname);  //compares
 			c4[i].External_id = c3[index1].id;
 			c4[i].Contractor_id = c2[index2].id;
 			c4[i].premium_hours = 0;
@@ -1134,7 +1134,7 @@ void Book(Booking b, Contractor* c2, ExternalEmployee* c3, Job* c4, int index1, 
 		}
 	}
 }
-void VacationRequest(Contractor* c2, int index)
+void VacationRequest(Contractor* c2, int index) // gives the ability to requst a  vacation
 {
 	int day;
 	int month;
@@ -1157,7 +1157,7 @@ void VacationRequest(Contractor* c2, int index)
 		cout << "enter year you want to take a vaction:";
 		cin >> year;
 		cout << endl;
-		while (Date_Vaild(c2, day, month, year, index) == false)
+		while (Date_Vaild(c2, day, month, year, index) == false)        //while the func returns false, tells the date is not vaild. trys again
 		{
 			cout << "This date is not available, please try agian." << endl;
 			cout << "enter day you want to take a vaction:";
@@ -1169,7 +1169,7 @@ void VacationRequest(Contractor* c2, int index)
 			cout << endl;
 		}
 		{
-			for (int j = 0; j < SIZE2; j++)
+			for (int j = 0; j < SIZE2; j++)  //reqest in this date the vocation
 			{
 				if (c2[index].a.day[j] == 0 && c2[index].a.month[j] == 0 && c2[index].a.year[j] == 0)
 				{
@@ -1186,30 +1186,30 @@ void VacationRequest(Contractor* c2, int index)
 		}
 	}
 }
-bool Date_Vaild(Contractor* c2, int day, int month, int year, int index)
+bool Date_Vaild(Contractor* c2, int day, int month, int year, int index)  // chacks if the date is legal
 {
 	for (int j = 0; j < SIZE2; j++)
 	{
-		if (c2[index].a.day[j] == day && c2[index].a.month[j] == month && c2[index].a.year[j] == year)
+		if (c2[index].a.day[j] == day && c2[index].a.month[j] == month && c2[index].a.year[j] == year)   //condition if the input to the func is the same as the date in the arr
 			return false;
 	}
 	return true;
 }
-void workHistory(ExternalEmployee* c3, Job* c4, int index) {
+void workHistory(ExternalEmployee* c3, Job* c4, int index) {    //shows the jobs history
 	int position = 1;
 	for (int i = 0; i < SIZE; i++)
 	{
-		if (c4[i].External_id == c3[index].id)
+		if (c4[i].External_id == c3[index].id)    //condition the id is the same
 		{
 			cout << endl;
 			cout << "Job Number " << position << endl;
 			cout << "~~~~~~~~~~~~" << endl;
-			printJob(c4[i]);
+			printJob(c4[i]);    //prints the job ditails
 			position++;
 		}
 	}
 }
-void printJob(Job c4)
+void printJob(Job c4)      // prints the job ditails
 {
 	cout << "Date worked: " << c4.day << "." << c4.month << "." << c4.year << endl;
 	cout << "Starting hour for hiring: " << c4.S_Hour << ":" << c4.S_Min << endl;
@@ -1228,7 +1228,7 @@ void ContractorWorkHistory(Contractor* c2, int index) {
 			printContractor(c2[i]);
 	}
 }
-void printContractor(Contractor c2)
+void printContractor(Contractor c2)     //prints the contractor ditails
 {
 
 	cout << "   Contractor Details   " << endl;
@@ -1241,11 +1241,11 @@ void printContractor(Contractor c2)
 	cout << "profession " << c2.profession << endl;
 	cout << "Seniority: " << c2.seniority << endl << endl;
 }
-void StatisticsAnalysis(Contractor* c2, Job* c4, CityCheck* c5)
+void StatisticsAnalysis(Contractor* c2, Job* c4, CityCheck* c5) //func to checkstatistics about top contractors in a few fields
 {
 	int menu = 0, max1 = 0, max2 = 0, max3 = 0;
-	int index1=0, index2=0, index3=0;
-	int index4=0, index5=0, index6=0;
+	int index1 = 0, index2 = 0, index3 = 0;
+	int index4 = 0, index5 = 0, index6 = 0;
 	int mostSenior1 = 0, mostSenior2 = 0, mostSenior3 = 0;
 	int MaxHours1 = 0, MaxHours2 = 0, MaxHours3 = 0;
 	int MaxLocation1 = 0, MaxLocation2 = 0, MaxLocation3 = 0;
@@ -1281,7 +1281,7 @@ void StatisticsAnalysis(Contractor* c2, Job* c4, CityCheck* c5)
 						}
 						Nosafot_hours = c4[i].premium_hours;
 						Nosafot_mins = c4[i].premium_mins;
-						sum = sum + HoursWorked*60 + MinsWorked + Nosafot_hours*60 + Nosafot_mins;
+						sum = sum + HoursWorked * 60 + MinsWorked + Nosafot_hours * 60 + Nosafot_mins;
 					}
 				}
 				if (sum > MaxHours1)
@@ -1360,7 +1360,7 @@ void StatisticsAnalysis(Contractor* c2, Job* c4, CityCheck* c5)
 			{
 				for (int j = 0; j < SIZE; j++)
 				{
-					if (strlen(c5[j].city)==0)
+					if (strlen(c5[j].city) == 0)
 					{
 						strcpy(c5[j].city, c2[i].City);
 						c5[j].counter++;
@@ -1401,7 +1401,7 @@ void StatisticsAnalysis(Contractor* c2, Job* c4, CityCheck* c5)
 		break;
 	}
 }
-void FindContractors(Contractor* c2)
+void contractorinfromation(Contractor* c2)  //this func finds the spesific contractor and you can update the contractor ditails
 {
 	int tryAgain = 0;
 	int In_Out = 0;
@@ -1417,7 +1417,7 @@ void FindContractors(Contractor* c2)
 	int contractorID = 0;
 
 
-	while (tryAgain != 2)
+	while (tryAgain != 2)   //while loop 
 	{
 		count = 0;
 		cout << "Let's find a contractor, what would you like to search for? your options:" << endl;
@@ -1427,10 +1427,10 @@ void FindContractors(Contractor* c2)
 		cout << "4. Attendance clock" << endl;
 		cout << "5. Serch by first name" << endl;
 		cin >> searchChoice;
-		switch (searchChoice)
+		switch (searchChoice)   //switch case that gives me the abillity to find contractor by differnt categoris
 		{
 		case 1:
-			cout << "Please enter the profession:";
+			cout << "Please enter the profession:";    //proffesion category
 			cin >> ProfessionPicked;
 			cout << endl;
 			for (int i = 0; i < SIZE; i++)
@@ -1447,7 +1447,7 @@ void FindContractors(Contractor* c2)
 			break;
 
 		case 2:
-			cout << "Please enter the place:";
+			cout << "Please enter the place:";     //palce category
 			cin >> PlacePicked;
 			cout << endl;
 			for (int i = 0; i < SIZE; i++)
@@ -1463,7 +1463,7 @@ void FindContractors(Contractor* c2)
 			tryAgain = 2;
 			break;
 		case 3:
-			cout << "Please enter pay by hour:";
+			cout << "Please enter pay by hour:";   //paycheck category
 			cin >> payPicked;
 			cout << endl;
 			for (int i = 0; i < SIZE; i++)
@@ -1478,7 +1478,7 @@ void FindContractors(Contractor* c2)
 				cout << "There Was No Contractors Found." << endl;
 			tryAgain = 2;
 			break;
-		case 4:
+		case 4: // Attendance clock category
 			cout << "Please enter which type of contractors you would like to see, (In/Out Clock)" << endl;
 			cout << "0.Out Shift" << endl << "1.In Shift" << endl;
 			cin >> In_Out;
@@ -1495,7 +1495,7 @@ void FindContractors(Contractor* c2)
 				cout << "There Was No Contractors Found." << endl;
 			tryAgain = 2;
 			break;
-		case 5:
+		case 5:   //name category 
 			cout << "Please enter the name of the contractor:";
 			cin >> NamePicked;
 			cout << endl;
@@ -1511,7 +1511,7 @@ void FindContractors(Contractor* c2)
 				cout << "There Was No Contractors Found." << endl;
 			tryAgain = 2;
 			break;
-		default:
+		default:    //no contractor found
 			cout << "No such an option." << endl;
 			cout << "Whould you like to try again?" << endl;
 			cout << "1.Yes" << endl << "2.No" << endl;
@@ -1520,7 +1520,7 @@ void FindContractors(Contractor* c2)
 		}
 	}
 
-	if (count != 0)
+	if (count != 0)    //changes the info. of the contractor
 	{
 		count = 0;
 		cout << endl;
@@ -1547,7 +1547,7 @@ void FindContractors(Contractor* c2)
 			cin >> changePick;
 			switch (changePick)
 			{
-			case 1:
+			case 1:    //changes the first name
 				for (int i = 0; i < SIZE; i++)
 				{
 					if (contractorID == c2[i].id)
@@ -1561,7 +1561,7 @@ void FindContractors(Contractor* c2)
 					cout << "There Was No Contractor with ID:" << contractorID << " Found." << endl;
 				changeChoice = 2;
 				break;
-			case 2:
+			case 2:                //changes the last name
 				for (int i = 0; i < SIZE; i++)
 				{
 					if (contractorID == c2[i].id)
@@ -1575,7 +1575,7 @@ void FindContractors(Contractor* c2)
 					cout << "There Was No Contractor with ID:" << contractorID << " Found." << endl;
 				changeChoice = 2;
 				break;
-			case 3:
+			case 3:      //changes the payment
 				for (int i = 0; i < SIZE; i++)
 				{
 					if (contractorID == c2[i].id)
@@ -1589,7 +1589,7 @@ void FindContractors(Contractor* c2)
 					cout << "There Was No Contractor with ID:" << contractorID << " Found." << endl;
 				changeChoice = 2;
 				break;
-			case 4:
+			case 4:  //changes the city
 				for (int i = 0; i < SIZE; i++)
 				{
 					if (contractorID == c2[i].id)
@@ -1603,7 +1603,7 @@ void FindContractors(Contractor* c2)
 					cout << "There Was No Contractor with ID:" << contractorID << " Found." << endl;
 				changeChoice = 2;
 				break;
-			case 5:
+			case 5:     //changes adress
 				for (int i = 0; i < SIZE; i++)
 				{
 					if (contractorID == c2[i].id)
@@ -1617,7 +1617,7 @@ void FindContractors(Contractor* c2)
 					cout << "There Was No Contractor with ID:" << contractorID << " Found." << endl;
 				changeChoice = 2;
 				break;
-			case 6:
+			case 6:  //changes number
 				for (int i = 0; i < SIZE; i++)
 				{
 					if (contractorID == c2[i].id)
@@ -1642,5 +1642,7 @@ void FindContractors(Contractor* c2)
 	}
 	cout << "Thank you, Bye Bye." << endl;
 }
+
+
 
 
