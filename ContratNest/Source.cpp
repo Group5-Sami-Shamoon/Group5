@@ -122,6 +122,8 @@ void VacationRequest(Contractor* c2, int index);
 bool Date_Vaild(Contractor* c2, int day, int month, int year, int index);
 void workHistory(ExternalEmployee* c3, Job* c4, int index);
 void printJob(Job c4);
+void ContractorWorkHistory(Contractor* c2, int index);
+void printContractor(Contractor c2);
 
 int main()
 {
@@ -186,6 +188,7 @@ void ContractorMenu(Contractor* c, Job* c4, int index)
 		VacationRequest(c, index);
 		break;
 	case 4:
+		ContractorWorkHistory(c, index);
 		break;
 	case 5:
 		cout << "Bye Bye." << endl;
@@ -1140,4 +1143,24 @@ void printJob(Job c4)
 	cout << "The external employee's Id: " << c4.External_id << endl;
 	cout << "The contractor's ID: " << c4.Contractor_id << endl;
 	cout << "The amount of extra hours: " << c4.premium_hours << ":" << c4.premium_mins << endl;
+}
+void ContractorWorkHistory(Contractor* c2, int index) {
+	for (int i = 0; i < SIZE; i++)
+	{
+		if (c2[i].id == c2[index].id)
+			printContractor(c2[i]);
+	}
+}
+void printContractor(Contractor c2) 
+{
+
+	cout << "   Contractor Details   " << endl;
+	cout << "~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
+	cout << "Name: " << c2.Firstname<< " " << c2.Lastname<< endl;
+	cout << "id: " << c2.id<< endl;
+	cout << "Hourly pay: " << c2.Hourly_Pay<< endl;
+	cout << "City: " << c2.City<< endl;
+	cout << "Adress: " << c2.Adress<< endl;
+	cout << "profession " <<c2.profession<< endl;
+	cout << "Seniority: " <<c2.seniority<< endl;
 }
