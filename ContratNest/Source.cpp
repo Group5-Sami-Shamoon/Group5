@@ -134,11 +134,11 @@ void Search(Contractor* c2, ExternalEmployee* c3, Job* c4, int index1);//Serch f
 void Book(Booking b, Contractor* c2, ExternalEmployee* c3, Job* c4, int index1, int index2);//book a contractor
 void VacationRequest(Contractor* c2, int index);
 bool Date_Vaild(Contractor* c2, int day, int month, int year, int index);//checks if the date is already taken or not
-void workHistory(ExternalEmployee* c3, Job* c4, int index);//work history of the external employee
+void HiredHistory(ExternalEmployee* c3, Job* c4, int index);//work history of the external employee
 void printJob(Job c4);//print some job
-void ContractorWorkHistory(Contractor* c2, int index);
-void printContractor(Contractor c2);
-void contractorinfromation(Contractor* c2);
+void ContractorWorkHistory(Contractor* c2, Job* c4, int index);
+void PrintContractor(Contractor c2);
+void ContractorInfromation(Contractor* c2);
 bool SameHourlyPay(Contractor* c2, float pay_hour, int index);
 bool CheckAttendanceClock(Contractor* c2, int In_Out, int index);
 void StatisticsAnalysis(Contractor* c2, Job* c4, CityCheck* c5);
@@ -221,7 +221,7 @@ void ContractorMenu(Contractor* c, Job* c4, int index)
 			VacationRequest(c, index);
 			break;
 		case 4:
-			ContractorWorkHistory(c, index);
+			ContractorWorkHistory(c, c4, index);
 			break;
 		case 5:
 			cout << "Bye Bye." << endl;
@@ -738,7 +738,7 @@ void ExternalEmployeeMenu(CompanyEmployee* c1, Contractor* c2, ExternalEmployee*
 			Search(c2, c3, c4, index);
 			break;
 		case 2:
-			workHistory(c3, c4, index);
+			HiredHistory(c3, c4, index);
 			break;
 		case 3:
 			cout << "Bye Bye." << endl;
@@ -767,7 +767,7 @@ void CompanyEmployeeMenu(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* 
 			StatisticsAnalysis(c2, c4, c5);
 			break;
 		case 3:
-			contractorinfromation(c2);
+			ContractorInfromation(c2);
 			break;
 		case 4:
 			cout << "Bye Bye." << endl;
@@ -973,7 +973,7 @@ void Report_Hours(Contractor* c2, Job* c4, int index)       //func porpose to re
 							cout << "Please enter premium hours to report:";
 							cin >> premium_hours;
 							c4[i].premium_hours = premium_hours;
-							cout << "Please enter premium hours to report:";
+							cout << "Please enter premium mins to report:";
 							cin >> premium_mins;
 							c4[i].premium_mins = premium_mins;
 							cout << "We Hope you had a nice shift, have a good day!" << endl;
@@ -1074,7 +1074,7 @@ void Search(Contractor* c2, ExternalEmployee* c3, Job* c4, int index1) //finds t
 	{
 		if (CheckAvibillity(c2, day, month, year, i) == true && Checkprofession(c2, profession, i) == true && Checkpay(c2, pay_hour, i) == true && CheckPlace(c2, city, i) == true && CheckVetek(c2, vetek, i) == true)
 		{
-			cout << c2[i].Firstname << " " << c2[i].Lastname << " " << "from " << c2[i].City << endl;
+			cout << "Contractor Found:" << c2[i].Firstname << " " << c2[i].Lastname << " " << "from " << c2[i].City << endl;
 			b.Hour_Salary = pay_hour;
 			strcpy(b.Location, city);
 			strcpy(b.Profession, profession);
@@ -1133,6 +1133,7 @@ void Book(Booking b, Contractor* c2, ExternalEmployee* c3, Job* c4, int index1, 
 			break;
 		}
 	}
+	cout << "Job Added, Thank you!" << endl;
 }
 void VacationRequest(Contractor* c2, int index) // gives the ability to requst a  vacation
 {
@@ -1195,7 +1196,8 @@ bool Date_Vaild(Contractor* c2, int day, int month, int year, int index)  // cha
 	}
 	return true;
 }
-void workHistory(ExternalEmployee* c3, Job* c4, int index) {    //shows the jobs history
+void HiredHistory(ExternalEmployee* c3, Job* c4, int index)
+{    //shows the jobs history
 	int position = 1;
 	for (int i = 0; i < SIZE; i++)
 	{
@@ -1221,16 +1223,29 @@ void printJob(Job c4)      // prints the job ditails
 	cout << "The contractor's ID: " << c4.Contractor_id << endl;
 	cout << "The amount of extra hours: " << c4.premium_hours << ":" << c4.premium_mins << endl;
 }
-void ContractorWorkHistory(Contractor* c2, int index) {
+void ContractorWorkHistory(Contractor* c2, Job* c4, int index)
+{
+	int position = 1;
+	int count=0;
 	for (int i = 0; i < SIZE; i++)
 	{
-		if (c2[i].id == c2[index].id)
-			printContractor(c2[i]);
+		if (c4[i].Contractor_id == c2[index].id)    //condition the id is the same
+		{
+			count++;
+			cout << endl;
+			cout << "Job Number " << position << endl;
+			cout << "~~~~~~~~~~~~" << endl;
+			printJob(c4[i]);    //prints the job ditails
+			position++;
+		}
+	}
+	if (count == 0)
+	{
+		cout << "No Jobs Found." << endl;
 	}
 }
-void printContractor(Contractor c2)     //prints the contractor ditails
+void PrintContractor(Contractor c2)     //prints the contractor ditails
 {
-
 	cout << "   Contractor Details   " << endl;
 	cout << "~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
 	cout << "Name: " << c2.Firstname << " " << c2.Lastname << endl;
@@ -1401,7 +1416,7 @@ void StatisticsAnalysis(Contractor* c2, Job* c4, CityCheck* c5) //func to checks
 		break;
 	}
 }
-void contractorinfromation(Contractor* c2)  //this func finds the spesific contractor and you can update the contractor ditails
+void ContractorInfromation(Contractor* c2)  //this func finds the spesific contractor and you can update the contractor ditails
 {
 	int tryAgain = 0;
 	int In_Out = 0;
@@ -1437,7 +1452,7 @@ void contractorinfromation(Contractor* c2)  //this func finds the spesific contr
 			{
 				if (Checkprofession(c2, ProfessionPicked, i) == true)
 				{
-					printContractor(c2[i]);
+					PrintContractor(c2[i]);
 					count++;
 				}
 			}
@@ -1454,7 +1469,7 @@ void contractorinfromation(Contractor* c2)  //this func finds the spesific contr
 			{
 				if (CheckPlace(c2, PlacePicked, i) == true)
 				{
-					printContractor(c2[i]);
+					PrintContractor(c2[i]);
 					count++;
 				}
 			}
@@ -1470,7 +1485,7 @@ void contractorinfromation(Contractor* c2)  //this func finds the spesific contr
 			{
 				if (SameHourlyPay(c2, payPicked, i) == true)
 				{
-					printContractor(c2[i]);
+					PrintContractor(c2[i]);
 					count++;
 				}
 			}
@@ -1487,7 +1502,7 @@ void contractorinfromation(Contractor* c2)  //this func finds the spesific contr
 			{
 				if (CheckAttendanceClock(c2, In_Out, i) == true && c2[i].id != 0)
 				{
-					printContractor(c2[i]);
+					PrintContractor(c2[i]);
 					count++;
 				}
 			}
@@ -1503,7 +1518,7 @@ void contractorinfromation(Contractor* c2)  //this func finds the spesific contr
 			{
 				if (CheckName(c2, NamePicked, i) == true)
 				{
-					printContractor(c2[i]);
+					PrintContractor(c2[i]);
 					count++;
 				}
 			}

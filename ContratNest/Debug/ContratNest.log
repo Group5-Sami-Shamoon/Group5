@@ -1,1 +1,5 @@
-﻿  ContratNest.vcxproj -> C:\Users\Ofek Elgozi\Group5\Debug\ContratNest.exe
+﻿  Source.cpp
+c:\users\ofek elgozi\group5\contratnest\source.cpp(828): warning C4018: '<': signed/unsigned mismatch
+c:\users\ofek elgozi\group5\contratnest\source.cpp(917): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\ofek elgozi\group5\contratnest\source.cpp(918): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+  ContratNest.vcxproj -> C:\Users\Ofek Elgozi\Group5\Debug\ContratNest.exe
