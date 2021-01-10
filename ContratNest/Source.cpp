@@ -171,7 +171,7 @@ void print()
 }
 void First_Menu(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job* c4, CityCheck* c5)
 {
-	int choice, choice2;
+	int choice=0, choice2=0, choice1=0;
 	cout << "               ContactNest               " << endl;
 	cout << "-----------------------------------------" << endl;
 	cout << "1.Company Employee" << endl << "2.Contractor" << endl << "3.External employee" << endl << "4.Exit" << endl;
@@ -186,7 +186,25 @@ void First_Menu(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job* 
 		break;
 	case 3:
 		cout << "1.Register" << endl << "2.Login" << endl;
-		cin >> choice2;
+		cin >> choice1;
+		while (choice1 != 1 && choice1 != 2)
+		{
+			cout << "InVaild option, want to try agian?" << endl << "1.Yes" << endl << "2.Exit" << endl;
+			cin >> choice1;
+			switch (choice1)
+			{
+			case 1:
+				cout << "1.Register" << endl << "2.Login" << endl;
+				cin >> choice2;
+				break;
+			case 2:
+				cout << "Bye Bye." << endl;
+				choice1 = 2;
+				break;
+			default:
+				break;
+			}
+		}
 		if (choice2 == 1)
 			Register(c1, c2, c3, c4);
 		else if (choice2 == 2)
@@ -196,7 +214,7 @@ void First_Menu(CompanyEmployee* c1, Contractor* c2, ExternalEmployee* c3, Job* 
 		cout << "Bye Bye." << endl;
 		break;
 	default:
-		cout << "Error" << endl;
+		cout << "Wrong Choice, ByeBye." << endl;
 	}
 }
 void ContractorMenu(Contractor* c, Job* c4, int index)
@@ -1543,115 +1561,136 @@ void ContractorInfromation(Contractor* c2)  //this func finds the spesific contr
 		cout << "1 - Yes" << endl;
 		cout << "2 - No" << endl;
 		cin >> changeChoice;
+		while (changeChoice != 1 && changeChoice != 2)
+		{
+			cout << "No such an option." << endl;
+			cout << "Whould you like to try again?" << endl;
+			cout << "1.Yes" << endl << "2.No" << endl;
+			cin >> changeChoice;
+			switch (changeChoice)
+			{
+			case 1:
+				cout << "Would you like to change any information about the contractors? (1 or 2)" << endl;
+				cout << "1 - Yes" << endl;
+				cout << "2 - No" << endl;
+				cin >> changeChoice;
+				break;
+			case 2:
+				changeChoice = 2;
+				break;
+			default:
+				break;
+			}
+		}
 		if (changeChoice == 1)
 		{
 			cout << "Enter the id of the contractor you would like to update:";
 			cin >> contractorID;
-		}
-		while (changeChoice != 2)
-		{
-			cout << endl;
-			cout << "    What do you want to change?    " << endl;
-			cout << "-----------------------------------" << endl;
-			cout << "1. change pay by hour" << endl;
-			cout << "2. change city" << endl;
-			cout << "3. change adress" << endl;
-			cout << "4. change phone number" << endl;
-			cout << "5. change profession" << endl;
-			cout << "6. change seniority" << endl;
-			cin >> changePick;
-			switch (changePick)
+			while (changePick != 2)
 			{
-			case 1:    //changes the first name
-				for (int i = 0; i < SIZE; i++)
+				cout << endl;
+				cout << "    What do you want to change?    " << endl;
+				cout << "-----------------------------------" << endl;
+				cout << "1. change pay by hour" << endl;
+				cout << "2. change city" << endl;
+				cout << "3. change adress" << endl;
+				cout << "4. change phone number" << endl;
+				cout << "5. change profession" << endl;
+				cout << "6. change seniority" << endl;
+				cin >> changePick;
+				switch (changePick)
 				{
-					if (contractorID == c2[i].id)
+				case 1:    //changes the first name
+					for (int i = 0; i < SIZE; i++)
 					{
-						cout << "Enter new amount of pay by the hour:";
-						cin >> c2[i].Hourly_Pay;
-						count++;
+						if (contractorID == c2[i].id)
+						{
+							cout << "Enter new amount of pay by the hour:";
+							cin >> c2[i].Hourly_Pay;
+							count++;
+						}
 					}
-				}
-				if (count == 0)
-					cout << "There Was No Contractor with ID:" << contractorID << " Found." << endl;
-				changeChoice = 2;
-				break;
-			case 2:                //changes the last name
-				for (int i = 0; i < SIZE; i++)
-				{
-					if (contractorID == c2[i].id)
+					if (count == 0)
+						cout << "There Was No Contractor with ID:" << contractorID << " Found." << endl;
+					changePick = 2;
+					break;
+				case 2:                //changes the last name
+					for (int i = 0; i < SIZE; i++)
 					{
-						cout << "what's his/her city?:";
-						cin >> c2[i].City;
-						count++;
+						if (contractorID == c2[i].id)
+						{
+							cout << "what's his/her city?:";
+							cin >> c2[i].City;
+							count++;
+						}
 					}
-				}
-				if (count == 0)
-					cout << "There Was No Contractor with ID:" << contractorID << " Found." << endl;
-				changeChoice = 2;
-				break;
-			case 3:      //changes the payment
-				for (int i = 0; i < SIZE; i++)
-				{
-					if (contractorID == c2[i].id)
+					if (count == 0)
+						cout << "There Was No Contractor with ID:" << contractorID << " Found." << endl;
+					changePick = 2;
+					break;
+				case 3:      //changes the payment
+					for (int i = 0; i < SIZE; i++)
 					{
-						cout << "what's his/her adress?:";
-						cin >> c2[i].Adress;
-						count++;
+						if (contractorID == c2[i].id)
+						{
+							cout << "what's his/her adress?:";
+							cin >> c2[i].Adress;
+							count++;
+						}
 					}
-				}
-				if (count == 0)
-					cout << "There Was No Contractor with ID:" << contractorID << " Found." << endl;
-				changeChoice = 2;
-				break;
-			case 4:  //changes the city
-				for (int i = 0; i < SIZE; i++)
-				{
-					if (contractorID == c2[i].id)
+					if (count == 0)
+						cout << "There Was No Contractor with ID:" << contractorID << " Found." << endl;
+					changePick = 2;
+					break;
+				case 4:  //changes the city
+					for (int i = 0; i < SIZE; i++)
 					{
-						cout << "Enter phone number:";
-						cin >> c2[i].Phone_Number;
-						count++;
+						if (contractorID == c2[i].id)
+						{
+							cout << "Enter phone number:";
+							cin >> c2[i].Phone_Number;
+							count++;
+						}
 					}
-				}
-				if (count == 0)
-					cout << "There Was No Contractor with ID:" << contractorID << " Found." << endl;
-				changeChoice = 2;
-				break;
-			case 5:     //changes adress
-				for (int i = 0; i < SIZE; i++)
-				{
-					if (contractorID == c2[i].id)
+					if (count == 0)
+						cout << "There Was No Contractor with ID:" << contractorID << " Found." << endl;
+					changePick = 2;
+					break;
+				case 5:     //changes adress
+					for (int i = 0; i < SIZE; i++)
 					{
-						cout << "what's his/her profession?:";
-						cin >> c2[i].profession;
-						count++;
+						if (contractorID == c2[i].id)
+						{
+							cout << "what's his/her profession?:";
+							cin >> c2[i].profession;
+							count++;
+						}
 					}
-				}
-				if (count == 0)
-					cout << "There Was No Contractor with ID:" << contractorID << " Found." << endl;
-				changeChoice = 2;
-				break;
-			case 6:  //changes number
-				for (int i = 0; i < SIZE; i++)
-				{
-					if (contractorID == c2[i].id)
+					if (count == 0)
+						cout << "There Was No Contractor with ID:" << contractorID << " Found." << endl;
+					changePick = 2;
+					break;
+				case 6:  //changes number
+					for (int i = 0; i < SIZE; i++)
 					{
-						cout << "Enter the amount of years worked:";
-						cin >> c2[i].seniority;
-						count++;
+						if (contractorID == c2[i].id)
+						{
+							cout << "Enter the amount of years worked:";
+							cin >> c2[i].seniority;
+							count++;
+						}
 					}
+					if (count == 0)
+						cout << "There Was No Contractor with ID:" << contractorID << " Found." << endl;
+					changePick = 2;
+					break;
+				default:
+					cout << "No such an option." << endl;
+					cout << "Whould you like to try again?" << endl;
+					cout << "1.Yes" << endl << "2.No" << endl;
+					cin >> changePick;
+					break;
 				}
-				if (count == 0)
-					cout << "There Was No Contractor with ID:" << contractorID << " Found." << endl;
-				changeChoice = 2;
-				break;
-			default:
-				cout << "No such an option." << endl;
-				cout << "Whould you like to try again?" << endl;
-				cout << "1.Yes" << endl << "2.No" << endl;
-				cin >> changeChoice;
-				break;
 			}
 		}
 	}
